@@ -14,7 +14,7 @@ const styles = [
   { label: 'Dots', value: 'dots' as const },
 ];
 
-const text = ref('https://it-tools.tech');
+const text = ref('https://tool.david888.com');
 const { qrcode } = useQRCode({
   text,
   color: {
