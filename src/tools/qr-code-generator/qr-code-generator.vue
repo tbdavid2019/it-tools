@@ -6,8 +6,13 @@ import { useDownloadFileFromBase64 } from '@/composable/downloadBase64';
 const foreground = ref('#000000ff');
 const background = ref('#ffffffff');
 const errorCorrectionLevel = ref<QRCodeErrorCorrectionLevel>('medium');
+const style = ref<'square' | 'dots'>('square');
 
 const errorCorrectionLevels = ['low', 'medium', 'quartile', 'high'];
+const styles = [
+  { label: 'Square', value: 'square' as const },
+  { label: 'Dots', value: 'dots' as const },
+];
 
 const text = ref('https://it-tools.tech');
 const { qrcode } = useQRCode({
@@ -17,6 +22,7 @@ const { qrcode } = useQRCode({
     foreground,
   },
   errorCorrectionLevel,
+  style,
   options: { width: 1024 },
 });
 
@@ -46,6 +52,14 @@ const { download } = useDownloadFileFromBase64({ source: qrcode, filename: 'qr-c
           <n-form-item label="Background color:">
             <n-color-picker v-model:value="background" :modes="['hex']" />
           </n-form-item>
+          <c-select
+            v-model:value="style"
+            label="Style:"
+            label-position="left"
+            label-width="130px"
+            label-align="right"
+            :options="styles"
+          />
           <c-select
             v-model:value="errorCorrectionLevel"
             label="Error resistance:"
