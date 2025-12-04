@@ -54,6 +54,7 @@ export default defineConfig({
     markdown(),
     svgLoader(),
     VitePWA({
+      disable: true,
       registerType: 'autoUpdate',
       strategies: 'generateSW',
       manifest: {

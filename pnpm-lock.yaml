@@ -4,6 +4,12 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@vueuse/core': 10.9.0
+  '@vueuse/shared': 10.9.0
+  '@vueuse/metadata': 10.9.0
+  '@vueuse/router': 10.0.0
+
 importers:
 
   .:
@@ -45,14 +51,17 @@ importers:
         specifier: ^0.12.0
         version: 0.12.0
       '@vueuse/core':
-        specifier: ^10.3.0
-        version: 10.3.0(vue@3.3.4)
+        specifier: 10.9.0
+        version: 10.9.0(vue@3.3.4)
       '@vueuse/head':
         specifier: ^1.0.0
         version: 1.0.0(vue@3.3.4)
       '@vueuse/router':
-        specifier: ^10.0.0
+        specifier: 10.0.0
         version: 10.0.0(vue-router@4.1.6(vue@3.3.4))(vue@3.3.4)
+      '@vueuse/shared':
+        specifier: 10.9.0
+        version: 10.9.0(vue@3.3.4)
       bcryptjs:
         specifier: ^2.4.3
         version: 2.4.3
@@ -181,7 +190,7 @@ importers:
         version: 0.4.0
       unplugin-auto-import:
         specifier: ^0.16.4
-        version: 0.16.4(@vueuse/core@10.3.0(vue@3.3.4))(rollup@2.79.2)
+        version: 0.16.4(@vueuse/core@10.9.0(vue@3.3.4))(rollup@2.79.2)
       uuid:
         specifier: ^9.0.0
         version: 9.0.0
@@ -2012,8 +2021,8 @@ packages:
   '@types/uuid@9.0.0':
     resolution: {integrity: sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==}
 
-  '@types/web-bluetooth@0.0.17':
-    resolution: {integrity: sha512-4p9vcSmxAayx72yn70joFoL44c9MO/0+iVEBIQXe3v2h2SiAsEIo/G5v6ObFWvNKRFjbrVadNf9LqEEZeQPzdA==}
+  '@types/web-bluetooth@0.0.20':
+    resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
 
   '@types/which@2.0.2':
     resolution: {integrity: sha512-113D3mDkZDjo+EeUEHCFy0qniNc1ZpecGiAU7WSo7YDoSzolZIQKpYFHrPpjkB2nuyahcKfrmLXeQlh7gqJYdw==}
@@ -2386,32 +2395,24 @@ packages:
   '@vue/typescript@1.8.1':
     resolution: {integrity: sha512-nQpo55j/roie8heCfqyXHnyayqD5+p4/0fzfxH4ZuHf7NSBQS791PNv7ztp2CCOjnGAiaiCMdtC9rc6oriyPUg==}
 
-  '@vueuse/core@10.3.0':
-    resolution: {integrity: sha512-BEM5yxcFKb5btFjTSAFjTu5jmwoW66fyV9uJIP4wUXXU8aR5Hl44gndaaXp7dC5HSObmgbnR2RN+Un1p68Mf5Q==}
+  '@vueuse/core@10.9.0':
+    resolution: {integrity: sha512-/1vjTol8SXnx6xewDEKfS0Ra//ncg4Hb0DaZiwKf7drgfMsKFExQ+FnnENcN6efPen+1kIzhLQoGSy0eDUVOMg==}
 
   '@vueuse/head@1.0.0':
     resolution: {integrity: sha512-wighjD6iLxEitpg6EDeS5dGDB9tcOSMhpblrAOKR6qBP93U3cjG72n0LhlBUD9miu41lNxXFVGHgSc6BVJ9BMg==}
     peerDependencies:
       vue: '>=2.7 || >=3'
 
-  '@vueuse/metadata@10.3.0':
-    resolution: {integrity: sha512-Ema3YhNOa4swDsV0V7CEY5JXvK19JI/o1szFO1iWxdFg3vhdFtCtSTP26PCvbUpnUtNHBY2wx5y3WDXND5Pvnw==}
+  '@vueuse/metadata@10.9.0':
+    resolution: {integrity: sha512-iddNbg3yZM0X7qFY2sAotomgdHK7YJ6sKUvQqbvwnf7TmaVPxS4EJydcNsVejNdS8iWCtDk+fYXr7E32nyTnGA==}
 
   '@vueuse/router@10.0.0':
     resolution: {integrity: sha512-d8rasUUhJOzh/xpVmjHc3hmc6Nnn5yjtMio2oXVqwFGNCNDqACTCGERLBnwpgyTT+xz9oMoW37dQuseADOTIBA==}
     peerDependencies:
       vue-router: '>=4.0.0-rc.1'
 
-  '@vueuse/shared@10.0.0':
-    resolution: {integrity: sha512-Zh3LgJqvUBWVY3SiMvXanTcfAneGbt63QPczBRDNgQ6jd/ehodO9a1lCFzaA6SWJJoI+ugVTjHFYJdoR656DVQ==}
-
-  '@vueuse/shared@10.3.0':
-    resolution: {integrity: sha512-kGqCTEuFPMK4+fNWy6dUOiYmxGcUbtznMwBZLC1PubidF4VZY05B+Oht7Jh7/6x4VOWGpvu3R37WHi81cKpiqg==}
-
-  '@vueuse/shared@14.1.0':
-    resolution: {integrity: sha512-EcKxtYvn6gx1F8z9J5/rsg3+lTQnvOruQd8fUecW99DCK04BkWD7z5KQ/wTAx+DazyoEE9dJt/zV8OIEQbM6kw==}
-    peerDependencies:
-      vue: ^3.5.0
+  '@vueuse/shared@10.9.0':
+    resolution: {integrity: sha512-Uud2IWncmAfJvRaFYzv5OHDli+FbOzxiVEQdLCKQKLyhz94PIyFC3CHcH7EDMwIn8NPtD06+PNbC/PiO0LGLtw==}
 
   '@zhead/schema@1.0.0-beta.13':
     resolution: {integrity: sha512-P1A1vRGFBhITco8Iw4/hvnDYoE/SoVrd71dW1pBFdXJb3vP+pBtoOuhbEKy0ROJGOyzQuqvFibcwzyLlWMqNiQ==}
@@ -3622,10 +3623,6 @@ packages:
   has@1.0.3:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
     engines: {node: '>= 0.4.0'}
-
-  hasown@2.0.0:
-    resolution: {integrity: sha512-vUptKVTpIJhcczKBbgnS+RtcuYMB8+oNzPK2/Hp3hanz8JmpATdmmgLgSaadVREkDm+e2giHwY3ZRkyjSIDDFA==}
-    engines: {node: '>= 0.4'}
 
   hasown@2.0.2:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
@@ -4849,10 +4846,6 @@ packages:
     resolution: {integrity: sha512-PXNdCiPqDqeUou+w1C2eTQbNfxKSuMxqTCuvlmmMsk1NWHL5fRrhY6Pl0qEYYc6+QqGClco1Qj8XnjPego4wfg==}
     hasBin: true
 
-  resolve@1.22.8:
-    resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
-    hasBin: true
-
   resolve@1.22.9:
     resolution: {integrity: sha512-QxrmX1DzraFIi9PxdG5VkRfRwIgjwyud+z/iBwfRRrVmHc+P9Q7u2lSSpQ6bjr2gy5lrqIiU9vb6iAeGf2400A==}
     hasBin: true
@@ -5435,7 +5428,7 @@ packages:
     engines: {node: '>=14'}
     peerDependencies:
       '@nuxt/kit': ^3.2.2
-      '@vueuse/core': '*'
+      '@vueuse/core': 10.9.0
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
@@ -5632,8 +5625,8 @@ packages:
       '@vue/composition-api':
         optional: true
 
-  vue-demi@0.14.5:
-    resolution: {integrity: sha512-o9NUVpl/YlsGJ7t+xuqJKx8EBGf1quRhCiT6D/J0pfwmk9zUwYkC7yrF4SZCe6fETvSM3UNL2edcbYrSyc4QHA==}
+  vue-demi@0.14.10:
+    resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
     engines: {node: '>=12'}
     hasBin: true
     peerDependencies:
@@ -6091,7 +6084,7 @@ snapshots:
       '@babel/traverse': 7.23.2
       '@babel/types': 7.23.0
       convert-source-map: 2.0.0
-      debug: 4.3.4
+      debug: 4.4.0
       gensync: 1.0.0-beta.2
       json5: 2.2.3
       semver: 6.3.1
@@ -6974,7 +6967,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.22.10
       '@babel/types': 7.22.10
-      debug: 4.3.4
+      debug: 4.4.0
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -6989,7 +6982,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.22.5
       '@babel/parser': 7.22.5
       '@babel/types': 7.22.5
-      debug: 4.3.4
+      debug: 4.4.0
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -7004,7 +6997,7 @@ snapshots:
       '@babel/helper-split-export-declaration': 7.22.6
       '@babel/parser': 7.23.0
       '@babel/types': 7.23.0
-      debug: 4.3.4
+      debug: 4.4.0
       globals: 11.12.0
     transitivePeerDependencies:
       - supports-color
@@ -7375,7 +7368,7 @@ snapshots:
 
   '@linaria/logger@4.0.0':
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.0
       picocolors: 1.0.0
     transitivePeerDependencies:
       - supports-color
@@ -7840,7 +7833,7 @@ snapshots:
 
   '@types/uuid@9.0.0': {}
 
-  '@types/web-bluetooth@0.0.17': {}
+  '@types/web-bluetooth@0.0.20': {}
 
   '@types/which@2.0.2': {}
 
@@ -7896,7 +7889,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/typescript-estree': 6.4.1(typescript@5.2.2)
       '@typescript-eslint/utils': 6.4.1(eslint@8.47.0)(typescript@5.2.2)
-      debug: 4.3.4
+      debug: 4.4.0
       eslint: 8.47.0
       ts-api-utils: 1.0.1(typescript@5.2.2)
     optionalDependencies:
@@ -7914,10 +7907,10 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 5.60.0
       '@typescript-eslint/visitor-keys': 5.60.0
-      debug: 4.3.4
+      debug: 4.4.0
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.3
       tsutils: 3.21.0(typescript@5.2.2)
     optionalDependencies:
       typescript: 5.2.2
@@ -7928,10 +7921,10 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.4.1
       '@typescript-eslint/visitor-keys': 6.4.1
-      debug: 4.3.4
+      debug: 4.4.0
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.3
       ts-api-utils: 1.0.1(typescript@5.2.2)
     optionalDependencies:
       typescript: 5.2.2
@@ -7942,10 +7935,10 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 6.9.1
       '@typescript-eslint/visitor-keys': 6.9.1
-      debug: 4.3.4
+      debug: 4.4.0
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.5.4
+      semver: 7.6.3
       ts-api-utils: 1.0.1(typescript@5.2.2)
     optionalDependencies:
       typescript: 5.2.2
@@ -7962,7 +7955,7 @@ snapshots:
       '@typescript-eslint/typescript-estree': 5.60.0(typescript@5.2.2)
       eslint: 8.47.0
       eslint-scope: 5.1.1
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -7976,7 +7969,7 @@ snapshots:
       '@typescript-eslint/types': 6.4.1
       '@typescript-eslint/typescript-estree': 6.4.1(typescript@5.2.2)
       eslint: 8.47.0
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -7990,7 +7983,7 @@ snapshots:
       '@typescript-eslint/types': 6.9.1
       '@typescript-eslint/typescript-estree': 6.9.1(typescript@5.2.2)
       eslint: 8.47.0
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
       - typescript
@@ -8027,9 +8020,11 @@ snapshots:
     dependencies:
       '@unhead/dom': 0.5.1
       '@unhead/schema': 0.5.1
-      '@vueuse/shared': 14.1.0(vue@3.3.4)
+      '@vueuse/shared': 10.9.0(vue@3.3.4)
       unhead: 0.5.1
       vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
   '@unocss/astro@0.65.1(rollup@2.79.2)(vite@4.4.9(@types/node@18.15.11)(less@4.1.3)(terser@5.37.0))(vue@3.3.4)':
     dependencies:
@@ -8454,12 +8449,12 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  '@vueuse/core@10.3.0(vue@3.3.4)':
+  '@vueuse/core@10.9.0(vue@3.3.4)':
     dependencies:
-      '@types/web-bluetooth': 0.0.17
-      '@vueuse/metadata': 10.3.0
-      '@vueuse/shared': 10.3.0(vue@3.3.4)
-      vue-demi: 0.14.5(vue@3.3.4)
+      '@types/web-bluetooth': 0.0.20
+      '@vueuse/metadata': 10.9.0
+      '@vueuse/shared': 10.9.0(vue@3.3.4)
+      vue-demi: 0.14.10(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
@@ -8470,35 +8465,26 @@ snapshots:
       '@unhead/ssr': 0.5.1
       '@unhead/vue': 0.5.1(vue@3.3.4)
       vue: 3.3.4
+    transitivePeerDependencies:
+      - '@vue/composition-api'
 
-  '@vueuse/metadata@10.3.0': {}
+  '@vueuse/metadata@10.9.0': {}
 
   '@vueuse/router@10.0.0(vue-router@4.1.6(vue@3.3.4))(vue@3.3.4)':
     dependencies:
-      '@vueuse/shared': 10.0.0(vue@3.3.4)
-      vue-demi: 0.14.5(vue@3.3.4)
+      '@vueuse/shared': 10.9.0(vue@3.3.4)
+      vue-demi: 0.14.10(vue@3.3.4)
       vue-router: 4.1.6(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
 
-  '@vueuse/shared@10.0.0(vue@3.3.4)':
+  '@vueuse/shared@10.9.0(vue@3.3.4)':
     dependencies:
-      vue-demi: 0.14.5(vue@3.3.4)
+      vue-demi: 0.14.10(vue@3.3.4)
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-
-  '@vueuse/shared@10.3.0(vue@3.3.4)':
-    dependencies:
-      vue-demi: 0.14.5(vue@3.3.4)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
-  '@vueuse/shared@14.1.0(vue@3.3.4)':
-    dependencies:
-      vue: 3.3.4
 
   '@zhead/schema@1.0.0-beta.13': {}
 
@@ -8522,7 +8508,7 @@ snapshots:
 
   agent-base@6.0.2:
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.0
     transitivePeerDependencies:
       - supports-color
 
@@ -8694,7 +8680,7 @@ snapshots:
 
   builtins@5.0.1:
     dependencies:
-      semver: 7.5.4
+      semver: 7.6.3
 
   bundle-require@5.0.0(esbuild@0.23.1):
     dependencies:
@@ -9883,10 +9869,6 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  hasown@2.0.0:
-    dependencies:
-      function-bind: 1.1.2
-
   hasown@2.0.2:
     dependencies:
       function-bind: 1.1.2
@@ -10074,7 +10056,7 @@ snapshots:
 
   is-core-module@2.13.1:
     dependencies:
-      hasown: 2.0.0
+      hasown: 2.0.2
 
   is-core-module@2.16.0:
     dependencies:
@@ -10665,7 +10647,7 @@ snapshots:
   normalize-package-data@2.5.0:
     dependencies:
       hosted-git-info: 2.8.9
-      resolve: 1.22.8
+      resolve: 1.22.9
       semver: 5.7.2
       validate-npm-package-license: 3.0.4
 
@@ -11185,13 +11167,7 @@ snapshots:
 
   resolve@1.22.4:
     dependencies:
-      is-core-module: 2.13.1
-      path-parse: 1.0.7
-      supports-preserve-symlinks-flag: 1.0.0
-
-  resolve@1.22.8:
-    dependencies:
-      is-core-module: 2.13.1
+      is-core-module: 2.16.0
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -11814,7 +11790,7 @@ snapshots:
       - supports-color
       - vue
 
-  unplugin-auto-import@0.16.4(@vueuse/core@10.3.0(vue@3.3.4))(rollup@2.79.2):
+  unplugin-auto-import@0.16.4(@vueuse/core@10.9.0(vue@3.3.4))(rollup@2.79.2):
     dependencies:
       '@antfu/utils': 0.7.4
       '@rollup/pluginutils': 5.0.2(rollup@2.79.2)
@@ -11824,7 +11800,7 @@ snapshots:
       unimport: 3.0.8(rollup@2.79.2)
       unplugin: 1.3.1
     optionalDependencies:
-      '@vueuse/core': 10.3.0(vue@3.3.4)
+      '@vueuse/core': 10.9.0(vue@3.3.4)
     transitivePeerDependencies:
       - rollup
 
@@ -12037,20 +12013,20 @@ snapshots:
     dependencies:
       vue: 3.3.4
 
-  vue-demi@0.14.5(vue@3.3.4):
+  vue-demi@0.14.10(vue@3.3.4):
     dependencies:
       vue: 3.3.4
 
   vue-eslint-parser@9.3.1(eslint@8.47.0):
     dependencies:
-      debug: 4.3.4
+      debug: 4.4.0
       eslint: 8.47.0
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
       espree: 9.6.1
       esquery: 1.5.0
       lodash: 4.17.21
-      semver: 7.5.4
+      semver: 7.6.3
     transitivePeerDependencies:
       - supports-color
 
