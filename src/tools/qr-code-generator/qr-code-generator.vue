@@ -146,7 +146,7 @@ const onLogoChange = (event: Event) => {
         </n-form>
       </n-gi>
       <n-gi>
-        <div flex flex-col items-center gap-3>
+        <div flex flex-col items-center gap-3 mt-2>
           <div ref="qrContainer" w-220px h-220px flex items-center justify-center rd-8px bg-white shadow-sm />
           <c-button @click="download">
             Download qr-code
