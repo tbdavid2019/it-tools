@@ -1,4 +1,4 @@
-import { QrCode } from '@vicons/tabler';
+import { Qrcode } from '@vicons/tabler';
 import { defineTool } from '../tool';
 import { translate } from '@/plugins/i18n.plugin';
 
@@ -8,5 +8,5 @@ export const tool = defineTool({
   description: translate('tools.qr-checker.description'),
   keywords: ['qr', 'scan', 'decode', 'image', 'camera'],
   component: () => import('./qr-checker.vue'),
-  icon: QrCode,
+  icon: Qrcode,
 });
