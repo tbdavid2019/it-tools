@@ -4,13 +4,32 @@ import { useQRCode } from './useQRCode';
 const foreground = ref('#000000ff');
 const background = ref('#ffffffff');
 const errorCorrectionLevel = ref<'low' | 'medium' | 'quartile' | 'high'>('medium');
-const style = ref<'square' | 'dots'>('square');
+const style = ref<'square' | 'dots' | 'rounded' | 'classy' | 'classy-rounded' | 'extra-rounded'>('square');
+const cornerSquareType = ref<'dot' | 'square' | 'extra-rounded' | 'classy'>('extra-rounded');
+const cornerDotType = ref<'dot' | 'square'>('dot');
+const size = ref(256);
+const logoDataUrl = ref<string>();
+const logoMargin = ref(8);
 const qrContainer = ref<HTMLElement | null>(null);
 
 const errorCorrectionLevels = ['low', 'medium', 'quartile', 'high'];
 const styles = [
   { label: 'Square', value: 'square' as const },
   { label: 'Dots', value: 'dots' as const },
+  { label: 'Rounded', value: 'rounded' as const },
+  { label: 'Classy', value: 'classy' as const },
+  { label: 'Classy Rounded', value: 'classy-rounded' as const },
+  { label: 'Extra Rounded', value: 'extra-rounded' as const },
+];
+const cornerSquares = [
+  { label: 'Extra Rounded', value: 'extra-rounded' as const },
+  { label: 'Dot', value: 'dot' as const },
+  { label: 'Square', value: 'square' as const },
+  { label: 'Classy', value: 'classy' as const },
+];
+const cornerDots = [
+  { label: 'Dot', value: 'dot' as const },
+  { label: 'Square', value: 'square' as const },
 ];
 
 const text = ref('https://tool.david888.com');
@@ -23,7 +42,26 @@ const { download } = useQRCode({
   errorCorrectionLevel,
   style,
   container: qrContainer,
+  size,
+  margin: logoMargin,
+  cornerSquareType,
+  cornerDotType,
+  image: logoDataUrl,
 });
+
+const onLogoChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (!file) {
+    logoDataUrl.value = undefined;
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => {
+    logoDataUrl.value = e.target?.result as string;
+  };
+  reader.readAsDataURL(file);
+};
 </script>
 
 <template>
@@ -49,14 +87,36 @@ const { download } = useQRCode({
           <n-form-item label="Background color:">
             <n-color-picker v-model:value="background" :modes="['hex']" />
           </n-form-item>
-          <c-select
-            v-model:value="style"
-            label="Style:"
-            label-position="left"
-            label-width="130px"
-            label-align="right"
-            :options="styles"
-          />
+          <n-form-item label="Style:">
+            <n-radio-group v-model:value="style">
+              <n-space wrap>
+                <n-radio-button v-for="opt in styles" :key="opt.value" :value="opt.value" :label="opt.label" />
+              </n-space>
+            </n-radio-group>
+          </n-form-item>
+          <n-form-item label="Corner squares:">
+            <n-radio-group v-model:value="cornerSquareType">
+              <n-space wrap>
+                <n-radio-button v-for="opt in cornerSquares" :key="opt.value" :value="opt.value" :label="opt.label" />
+              </n-space>
+            </n-radio-group>
+          </n-form-item>
+          <n-form-item label="Corner dots:">
+            <n-radio-group v-model:value="cornerDotType">
+              <n-space wrap>
+                <n-radio-button v-for="opt in cornerDots" :key="opt.value" :value="opt.value" :label="opt.label" />
+              </n-space>
+            </n-radio-group>
+          </n-form-item>
+          <n-form-item label="Size:">
+            <n-input-number v-model:value="size" :min="180" :max="640" />
+          </n-form-item>
+          <n-form-item label="Logo image:">
+            <input type="file" accept="image/*" @change="onLogoChange" />
+          </n-form-item>
+          <n-form-item label="Logo margin:">
+            <n-input-number v-model:value="logoMargin" :min="0" :max="30" />
+          </n-form-item>
           <c-select
             v-model:value="errorCorrectionLevel"
             label="Error resistance:"

@@ -2,8 +2,10 @@ import { type MaybeRef, get } from '@vueuse/core';
 import QRCodeStyling from 'qr-code-styling';
 import { isRef, onMounted, ref, watch } from 'vue';
 
-type StyledQrStyle = 'square' | 'dots';
+type StyledQrStyle = 'square' | 'dots' | 'rounded' | 'classy' | 'classy-rounded' | 'extra-rounded';
 type StyledErrorCorrection = 'low' | 'medium' | 'quartile' | 'high';
+type CornerSquare = 'dot' | 'square' | 'extra-rounded' | 'classy';
+type CornerDot = 'dot' | 'square';
 
 export function useQRCode({
   text,
@@ -17,6 +19,11 @@ export function useQRCode({
   errorCorrectionLevel?: MaybeRef<StyledErrorCorrection>
   style?: MaybeRef<StyledQrStyle>
   container: MaybeRef<HTMLElement | null>
+  size?: MaybeRef<number>
+  margin?: MaybeRef<number>
+  cornerSquareType?: MaybeRef<CornerSquare>
+  cornerDotType?: MaybeRef<CornerDot>
+  image?: MaybeRef<string | undefined>
 }) {
   const instance = ref<QRCodeStyling>();
 
@@ -34,14 +41,15 @@ export function useQRCode({
     if (!node) return;
 
     instance.value = new QRCodeStyling({
-      width: 256,
-      height: 256,
+      width: get(size) ?? 256,
+      height: get(size) ?? 256,
       data: get(text),
       qrOptions: { errorCorrectionLevel: levelMap[get(errorCorrectionLevel) ?? 'medium'] },
       dotsOptions: { color: get(foreground), type: get(style) ?? 'square' },
       backgroundOptions: { color: get(background) },
-      cornersSquareOptions: { type: 'extra-rounded', color: get(foreground) },
-      cornersDotOptions: { type: 'dot', color: get(foreground) },
+      cornersSquareOptions: { type: get(cornerSquareType) ?? 'extra-rounded', color: get(foreground) },
+      cornersDotOptions: { type: get(cornerDotType) ?? 'dot', color: get(foreground) },
+      image: get(image),
     });
 
     instance.value.append(node);
@@ -54,17 +62,25 @@ export function useQRCode({
 
     instance.value.update({
       data: get(text)?.trim(),
+      width: get(size) ?? 256,
+      height: get(size) ?? 256,
       qrOptions: { errorCorrectionLevel: levelMap[get(errorCorrectionLevel) ?? 'medium'] },
       dotsOptions: { color: get(foreground), type: get(style) ?? 'square' },
       backgroundOptions: { color: get(background) },
-      cornersSquareOptions: { type: 'extra-rounded', color: get(foreground) },
-      cornersDotOptions: { type: 'dot', color: get(foreground) },
+      cornersSquareOptions: { type: get(cornerSquareType) ?? 'extra-rounded', color: get(foreground) },
+      cornersDotOptions: { type: get(cornerDotType) ?? 'dot', color: get(foreground) },
+      image: get(image),
+      imageOptions: { margin: get(margin) ?? 8, hideBackgroundDots: true, imageSize: 0.3, crossOrigin: 'anonymous' },
     });
   };
 
   onMounted(update);
 
-  watch([text, background, foreground, errorCorrectionLevel, style].filter(isRef), update, { immediate: true });
+  watch(
+    [text, background, foreground, errorCorrectionLevel, style, size, margin, cornerSquareType, cornerDotType, image].filter(isRef),
+    update,
+    { immediate: true },
+  );
 
   const download = () => instance.value?.download({ name: 'qr-code', extension: 'png' });
 
