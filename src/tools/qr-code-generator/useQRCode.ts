@@ -13,6 +13,11 @@ export function useQRCode({
   errorCorrectionLevel,
   style,
   container,
+  size,
+  margin,
+  cornerSquareType,
+  cornerDotType,
+  image,
 }: {
   text: MaybeRef<string>
   color: { foreground: MaybeRef<string>; background: MaybeRef<string> }
