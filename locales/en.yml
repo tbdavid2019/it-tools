@@ -253,6 +253,10 @@ tools:
     title: QR Code generator
     description: Generate and download a QR code for a URL (or just plain text), and customize the background and foreground colors.
 
+  qr-checker:
+    title: QR Code checker
+    description: Scan and decode QR codes from images or your camera.
+
   wifi-qrcode-generator:
     title: WiFi QR Code generator
     description: Generate and download QR codes for quick connections to WiFi networks.

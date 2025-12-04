@@ -246,6 +246,10 @@ tools:
     title: 二維碼生成器
     description: 生成並下載url或文字的QR代碼，並自訂背景和前景顏色。
 
+  qr-checker:
+    title: 二維碼掃描器
+    description: 使用圖片或相機掃描並解析二維碼。
+
   wifi-qrcode-generator:
     title: WiFi 二維碼生成器
     description: 生成和下載QR碼以快速連接到WiFi網路。

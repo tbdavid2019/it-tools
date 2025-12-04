@@ -246,6 +246,10 @@ tools:
     title: 二维码生成器
     description: 生成并下载url或文本的QR代码，并自定义背景和前景颜色。
 
+  qr-checker:
+    title: 二维码扫描器
+    description: 使用图片或相机扫描并解析二维码。
+
   wifi-qrcode-generator:
     title: WiFi 二维码生成器
     description: 生成和下载QR码以快速连接到WiFi网络。
