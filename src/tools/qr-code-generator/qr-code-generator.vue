@@ -49,6 +49,19 @@ const { download } = useQRCode({
   image: logoDataUrl,
 });
 
+const resetToBasic = () => {
+  text.value = 'https://tool.david888.com';
+  foreground.value = '#000000ff';
+  background.value = '#ffffffff';
+  style.value = 'square';
+  cornerSquareType.value = 'square';
+  cornerDotType.value = 'square';
+  size.value = 256;
+  logoDataUrl.value = undefined;
+  logoMargin.value = 0;
+  errorCorrectionLevel.value = 'medium';
+};
+
 const onLogoChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const file = target.files?.[0];
@@ -81,6 +94,11 @@ const onLogoChange = (event: Event) => {
           mb-6
         />
         <n-form label-width="130" label-placement="left">
+          <div flex justify-end>
+            <c-button size="small" tertiary @click="resetToBasic">
+              重置為基礎樣式
+            </c-button>
+          </div>
           <n-form-item label="Foreground color:">
             <n-color-picker v-model:value="foreground" :modes="['hex']" />
           </n-form-item>
