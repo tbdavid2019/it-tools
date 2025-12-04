@@ -1,102 +1,72 @@
 import { type MaybeRef, get } from '@vueuse/core';
-import QRCode, { type QRCodeErrorCorrectionLevel, type QRCodeToDataURLOptions } from 'qrcode';
-import { isRef, ref, watch } from 'vue';
+import QRCodeStyling from 'qr-code-styling';
+import { isRef, onMounted, ref, watch } from 'vue';
+
+type StyledQrStyle = 'square' | 'dots';
+type StyledErrorCorrection = 'low' | 'medium' | 'quartile' | 'high';
 
 export function useQRCode({
   text,
   color: { background, foreground },
   errorCorrectionLevel,
   style,
-  options,
+  container,
 }: {
   text: MaybeRef<string>
   color: { foreground: MaybeRef<string>; background: MaybeRef<string> }
-  errorCorrectionLevel?: MaybeRef<QRCodeErrorCorrectionLevel>
-  style?: MaybeRef<'square' | 'dots'>
-  options?: QRCodeToDataURLOptions
+  errorCorrectionLevel?: MaybeRef<StyledErrorCorrection>
+  style?: MaybeRef<StyledQrStyle>
+  container: MaybeRef<HTMLElement | null>
 }) {
-  const qrcode = ref('');
+  const instance = ref<QRCodeStyling>();
 
-  watch(
-    [text, background, foreground, errorCorrectionLevel, style].filter(isRef),
-    async () => {
-      if (get(text)) {
-        qrcode.value = await renderCustomQRCode({
-          text: get(text).trim(),
-          foreground: get(foreground),
-          background: get(background),
-          errorCorrectionLevel: get(errorCorrectionLevel) ?? 'medium',
-          style: get(style) ?? 'square',
-          width: options?.width ?? 1024,
-          margin: options?.margin ?? 4,
-        });
-      }
-    },
-    { immediate: true },
-  );
-
-  return { qrcode };
-}
-
-async function renderCustomQRCode({
-  text,
-  foreground,
-  background,
-  errorCorrectionLevel,
-  style,
-  width,
-  margin,
-}: {
-  text: string
-  foreground: string
-  background: string
-  errorCorrectionLevel: QRCodeErrorCorrectionLevel
-  style: 'square' | 'dots'
-  width: number
-  margin: number
-}) {
-  const levelMap: Record<QRCodeErrorCorrectionLevel, 'L' | 'M' | 'Q' | 'H'> = {
+  const levelMap: Record<StyledErrorCorrection, 'L' | 'M' | 'Q' | 'H'> = {
     low: 'L',
     medium: 'M',
     quartile: 'Q',
     high: 'H',
   };
 
-  const qr = QRCode.create(text, { errorCorrectionLevel: levelMap[errorCorrectionLevel] });
-  const size = qr.modules.size;
-  const cells = qr.modules.data;
+  const ensureInstance = () => {
+    if (instance.value) return;
 
-  const canvas = document.createElement('canvas');
-  const cellSize = Math.max(Math.floor((width - margin * 2) / size), 1);
-  const qrSize = cellSize * size + margin * 2;
-  canvas.width = qrSize;
-  canvas.height = qrSize;
+    const node = get(container);
+    if (!node) return;
 
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return '';
+    instance.value = new QRCodeStyling({
+      width: 256,
+      height: 256,
+      data: get(text),
+      qrOptions: { errorCorrectionLevel: levelMap[get(errorCorrectionLevel) ?? 'medium'] },
+      dotsOptions: { color: get(foreground), type: get(style) ?? 'square' },
+      backgroundOptions: { color: get(background) },
+      cornersSquareOptions: { type: 'extra-rounded', color: get(foreground) },
+      cornersDotOptions: { type: 'dot', color: get(foreground) },
+    });
 
-  ctx.fillStyle = background;
-  ctx.fillRect(0, 0, qrSize, qrSize);
-  ctx.fillStyle = foreground;
+    instance.value.append(node);
+  };
 
-  for (let row = 0; row < size; row += 1) {
-    for (let col = 0; col < size; col += 1) {
-      if (cells[row * size + col]) {
-        const x = col * cellSize + margin;
-        const y = row * cellSize + margin;
+  const update = () => {
+    if (!get(text)) return;
+    ensureInstance();
+    if (!instance.value) return;
 
-        if (style === 'dots') {
-          const radius = cellSize / 2;
-          ctx.beginPath();
-          ctx.arc(x + radius, y + radius, radius * 0.9, 0, Math.PI * 2, false);
-          ctx.closePath();
-          ctx.fill();
-        } else {
-          ctx.fillRect(x, y, cellSize, cellSize);
-        }
-      }
-    }
-  }
+    instance.value.update({
+      data: get(text)?.trim(),
+      qrOptions: { errorCorrectionLevel: levelMap[get(errorCorrectionLevel) ?? 'medium'] },
+      dotsOptions: { color: get(foreground), type: get(style) ?? 'square' },
+      backgroundOptions: { color: get(background) },
+      cornersSquareOptions: { type: 'extra-rounded', color: get(foreground) },
+      cornersDotOptions: { type: 'dot', color: get(foreground) },
+    });
+  };
 
-  return canvas.toDataURL('image/png');
+  onMounted(update);
+
+  watch([text, background, foreground, errorCorrectionLevel, style].filter(isRef), update, { immediate: true });
+
+  const download = () => instance.value?.download({ name: 'qr-code', extension: 'png' });
+
+  return { download };
 }

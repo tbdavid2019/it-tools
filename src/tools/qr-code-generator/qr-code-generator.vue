@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { QRCodeErrorCorrectionLevel } from 'qrcode';
 import { useQRCode } from './useQRCode';
-import { useDownloadFileFromBase64 } from '@/composable/downloadBase64';
 
 const foreground = ref('#000000ff');
 const background = ref('#ffffffff');
-const errorCorrectionLevel = ref<QRCodeErrorCorrectionLevel>('medium');
+const errorCorrectionLevel = ref<'low' | 'medium' | 'quartile' | 'high'>('medium');
 const style = ref<'square' | 'dots'>('square');
+const qrContainer = ref<HTMLElement | null>(null);
 
 const errorCorrectionLevels = ['low', 'medium', 'quartile', 'high'];
 const styles = [
@@ -15,7 +14,7 @@ const styles = [
 ];
 
 const text = ref('https://tool.david888.com');
-const { qrcode } = useQRCode({
+const { download } = useQRCode({
   text,
   color: {
     background,
@@ -23,10 +22,8 @@ const { qrcode } = useQRCode({
   },
   errorCorrectionLevel,
   style,
-  options: { width: 1024 },
+  container: qrContainer,
 });
-
-const { download } = useDownloadFileFromBase64({ source: qrcode, filename: 'qr-code.png' });
 </script>
 
 <template>
@@ -72,7 +69,7 @@ const { download } = useDownloadFileFromBase64({ source: qrcode, filename: 'qr-c
       </n-gi>
       <n-gi>
         <div flex flex-col items-center gap-3>
-          <n-image :src="qrcode" width="200" />
+          <div ref="qrContainer" w-220px h-220px flex items-center justify-center rd-8px bg-white shadow-sm />
           <c-button @click="download">
             Download qr-code
           </c-button>
