@@ -37,13 +37,13 @@ about:
 
     ## Technologies
 
-    IT Tools is made in Vue.js (Vue 3) with the the Naive UI component library and is hosted and continuously deployed by Vercel. Third-party open-source libraries are used in some tools, you may find the complete list in the [package.json](https://github.com/CorentinTh/it-tools/blob/main/package.json) file of the repository.
+    IT Tools is made in Vue.js (Vue 3) with the the Naive UI component library and is hosted and continuously deployed by Vercel. Third-party open-source libraries are used in some tools, you may find the complete list in the [package.json](https://github.com/tbdavid2019/it-tools/blob/main/package.json) file of the repository.
 
     ## Found a bug? A tool is missing?
 
-    If you need a tool that is currently not present here, and you think can be useful, you are welcome to submit a feature request in the [issues section](https://github.com/CorentinTh/it-tools/issues/new/choose) in the GitHub repository.
+    If you need a tool that is currently not present here, and you think can be useful, you are welcome to submit a feature request in the [issues section](https://github.com/tbdavid2019/it-tools/issues/new/choose) in the GitHub repository.
 
-    And if you found a bug, or something doesn't work as expected, please file a bug report in the [issues section](https://github.com/CorentinTh/it-tools/issues/new/choose) in the GitHub repository.
+    And if you found a bug, or something doesn't work as expected, please file a bug report in the [issues section](https://github.com/tbdavid2019/it-tools/issues/new/choose) in the GitHub repository.
 
 404:
   notFound: '404 Not Found'
@@ -372,6 +372,22 @@ tools:
   text-to-unicode:
     title: Text to Unicode
     description: Parse and convert text to unicode and vice-versa
+
+  tongwen-converter:
+    title: TongWen converter
+    description: Convert text between Simplified and Traditional Chinese using TongWen mappings.
+    directions:
+      s2t: Simplified to Traditional
+      t2s: Traditional to Simplified
+    directionLabel: Direction
+    inputLabel: Source text
+    outputLabel: Converted text
+    placeholder: Paste or type Chinese text to convert
+    buttons:
+      swap: Swap direction
+      copy: Copy result
+      clear: Clear
+    note: Mapping derived from the TongWen userscript (no external requests).
 
   ipv4-range-expander:
     title: IPv4 range expander

@@ -6,6 +6,7 @@ import { tool as emailNormalizer } from './email-normalizer';
 import { tool as asciiTextDrawer } from './ascii-text-drawer';
 
 import { tool as textToUnicode } from './text-to-unicode';
+import { tool as tongWenConverter } from './tongwen-converter';
 import { tool as safelinkDecoder } from './safelink-decoder';
 import { tool as xmlToJson } from './xml-to-json';
 import { tool as jsonToXml } from './json-to-xml';
@@ -106,6 +107,7 @@ export const toolsByCategory: ToolCategory[] = [
       textToNatoAlphabet,
       textToBinary,
       textToUnicode,
+      tongWenConverter,
       yamlToJson,
       yamlToToml,
       jsonToYaml,

@@ -5,53 +5,44 @@
 </picture>
 
 <p align="center">
-Useful tools for developer and people working in IT. <a href="https://it-tools.tech">Try it!</a>
+一套為開發者與 IT 工作者準備的線上工具集合。<a href="https://it-tools.tech">立即體驗！</a>
 </p>
 
+**致謝**：感謝原作者 [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools) 的開源專案。
 
-## Sponsors
-
-<div align="center" markdown="1">
-<p align="center">
-  IT-Tools is proudly sponsored by:
-</p>
-
-<a href="https://go.warp.dev/it-tools">
-  <img alt="Warp sponsorship" width="400" src="https://raw.githubusercontent.com/warpdotdev/brand-assets/refs/heads/main/Github/Sponsor/Warp-Github-LG-01.png">
-</a>
-
-### [Warp, built for coding with multiple AI agents.](https://go.warp.dev/it-tools)
-[Available for MacOS, Linux, & Windows](https://go.warp.dev/it-tools)<br>
-
-</div>
+**本版本更新**
+- 預設介面語言改為繁體中文
+- 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉
 
 ## Functionalities and roadmap
 
-Please check the [issues](https://github.com/CorentinTh/it-tools/issues) to see if some feature listed to be implemented.
+Please check the [issues](https://github.com/tbdavid2019/it-tools/issues) to see if some feature listed to be implemented.
 
-You have an idea of a tool? Submit a [feature request](https://github.com/CorentinTh/it-tools/issues/new/choose)!
+You have an idea of a tool? Submit a [feature request](https://github.com/tbdavid2019/it-tools/issues/new/choose)!
 
-## Self host
+## Deploy to Vercel
 
-Self host solutions for your homelab
+1. 將程式碼推上 GitHub/GitLab（`dist` 繼續保留在 `.gitignore`）。
+2. 在 Vercel 匯入專案，Framework 選「Vite」。
+3. 安裝指令：`pnpm install --frozen-lockfile`（可用預設）；Build 指令：`pnpm build`；Output Directory：`dist`。
+4. 需要環境變數的話，於 Vercel 專案設定補上後重新部署。
+5. 首次部署完成後即可透過 Vercel 提供的網址存取。
 
-**From docker hub:**
 
-```sh
-docker run -d --name it-tools --restart unless-stopped -p 8080:80 corentinth/it-tools:latest
+## 本地測試
+啟動開發伺服器：pnpm dev，預設會跑在 http://localhost:5173
+
+如需預覽正式建置：pnpm build 後 pnpm preview（預設 http://localhost:5050）
+
+```
+pnpm install
+pnpm dev
+```
+```
+pnpm build
+pnpm preview
 ```
 
-**From github packages:**
-
-```sh
-docker run -d --name it-tools --restart unless-stopped -p 8080:80 ghcr.io/corentinth/it-tools:latest
-```
-
-**Other solutions:**
-
-- [Cloudron](https://www.cloudron.io/store/tech.ittools.cloudron.html)
-- [Tipi](https://www.runtipi.io/docs/apps-available)
-- [Unraid](https://unraid.net/community/apps?q=it-tools)
 
 ## Contribute
 
