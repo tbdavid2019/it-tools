@@ -54,9 +54,9 @@ export default defineConfig({
     markdown(),
     svgLoader(),
     VitePWA({
+      disable: true,
       registerType: 'autoUpdate',
       strategies: 'generateSW',
-       minify: false,
       manifest: {
         name: 'IT Tools',
         description: 'Aggregated set of useful tools for developers.',

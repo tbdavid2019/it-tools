@@ -13,6 +13,7 @@
 **本版本更新**
 - 預設介面語言改為繁體中文
 - 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉
+- QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式
 
 ## Functionalities and roadmap
 
