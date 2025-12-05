@@ -105,10 +105,6 @@ export const toolsByCategory: ToolCategory[] = [
       base64FileConverter,
       colorConverter,
       caseConverter,
-      textToNatoAlphabet,
-      textToBinary,
-      textToUnicode,
-      tongWenConverter,
       yamlToJson,
       yamlToToml,
       jsonToYaml,
@@ -118,7 +114,6 @@ export const toolsByCategory: ToolCategory[] = [
       tomlToYaml,
       xmlToJson,
       jsonToXml,
-      markdownToHtml,
     ],
   },
   {
@@ -144,7 +139,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Images and videos',
-    components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, qrChecker],
+    components: [qrCodeGenerator, qrChecker, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder],
   },
   {
     name: 'Development',
@@ -187,6 +182,11 @@ export const toolsByCategory: ToolCategory[] = [
       textDiff,
       numeronymGenerator,
       asciiTextDrawer,
+      textToNatoAlphabet,
+      textToBinary,
+      textToUnicode,
+      tongWenConverter,
+      markdownToHtml,
     ],
   },
   {
