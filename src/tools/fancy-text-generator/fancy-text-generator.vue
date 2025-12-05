@@ -6,9 +6,10 @@ type Mapping = Record<string, string>;
 const text = ref('');
 const { copy } = useClipboard();
 
+const toChars = (value: string) => Array.from(value);
+
 const transformWithMapping = (value: string, mapping: Mapping) =>
-  value
-    .split('')
+  toChars(value)
     .map(ch => mapping[ch] ?? ch)
     .join('');
 
@@ -22,10 +23,14 @@ const base = {
 
 const makeMap = (lower: string, upper: string, digits?: string): Mapping => {
   const map: Mapping = {};
-  base.latinLower.split('').forEach((ch, i) => (map[ch] = lower[i] ?? ch));
-  base.latinUpper.split('').forEach((ch, i) => (map[ch] = upper[i] ?? ch));
+  const lowerChars = toChars(lower);
+  const upperChars = toChars(upper);
+  const digitChars = digits ? toChars(digits) : null;
+
+  toChars(base.latinLower).forEach((ch, i) => (map[ch] = lowerChars[i] ?? ch));
+  toChars(base.latinUpper).forEach((ch, i) => (map[ch] = upperChars[i] ?? ch));
   if (digits) {
-    base.digits.split('').forEach((ch, i) => (map[ch] = digits[i] ?? ch));
+    toChars(base.digits).forEach((ch, i) => (map[ch] = digitChars?.[i] ?? ch));
   }
   return map;
 };
