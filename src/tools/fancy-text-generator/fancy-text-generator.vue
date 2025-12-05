@@ -228,6 +228,9 @@ const copyValue = (value: string) => copy(value);
   flex: 1;
   font-size: 18px;
   word-break: break-all;
+  /* Use symbol-friendly fonts so astral-plane glyphs (math sans, fraktur, etc.) don't render as tofu. */
+  font-family: 'Noto Sans', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Segoe UI Symbol',
+    'Arial Unicode MS', 'Apple Color Emoji', 'Noto Emoji', sans-serif;
 }
 @media (max-width: 768px) {
   .row {

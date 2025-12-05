@@ -16,6 +16,7 @@
 - QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式
 - QR 解析工具：新增支援貼上剪貼簿圖片直接解析
 - 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間
+- 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製
 ![alt text](image.png)
 
 
