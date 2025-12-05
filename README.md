@@ -21,6 +21,8 @@
 | 5 | 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間（https://tool.david888.com/countdown-timer） |
 | 6 | 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製（https://tool.david888.com/fancy-text） |
 | 7 | 新增「世界時間」工具（Measurement 分類），快速查看多城市時間並切換 12/24 小時制（https://tool.david888.com/world-clock） |
+
+
 ![alt text](image.png)
 
 
@@ -52,7 +54,19 @@ pnpm dev
 pnpm build
 pnpm preview
 ```
+## Docker 打包
+```
+docker build -t tool.david888 .
+docker run -d -p 80:80 tool.david888
 
+docker build -t tbdavid2019/tool.david888:latest
+docker push tbdavid2019/tool.david888:latest
+```
+
+## Docker 運行
+```
+docker run -d -p 80:80  tbdavid2019/ttool.david888
+```
 
 ## Contribute
 
