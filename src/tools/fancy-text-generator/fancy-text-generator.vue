@@ -179,7 +179,7 @@ const copyValue = (value: string) => copy(value);
 </script>
 
 <template>
-  <c-card>
+<c-card class="fancy-text-card">
     <div class="title">{{ $t('tools.fancy-text-generator.title') }}</div>
     <n-input
       v-model:value="text"
@@ -200,6 +200,12 @@ const copyValue = (value: string) => copy(value);
 </template>
 
 <style scoped lang="less">
+.fancy-text-card {
+  /* Apply symbol-friendly fonts to the whole card to avoid tofu for astral-plane glyphs. */
+  font-family: 'Segoe UI Symbol', 'Arial Unicode MS', 'Noto Sans Symbols 2', 'Noto Sans',
+    'Apple Color Emoji', 'Noto Emoji', 'PingFang TC', 'PingFang SC', 'Microsoft YaHei',
+    'Helvetica Neue', Arial, sans-serif;
+}
 .title {
   font-size: 20px;
   font-weight: 600;
@@ -228,9 +234,6 @@ const copyValue = (value: string) => copy(value);
   flex: 1;
   font-size: 18px;
   word-break: break-all;
-  /* Use symbol-friendly fonts so astral-plane glyphs (math sans, fraktur, etc.) don't render as tofu. */
-  font-family: 'Noto Sans', 'Noto Sans Symbols', 'Noto Sans Symbols 2', 'Segoe UI Symbol',
-    'Arial Unicode MS', 'Apple Color Emoji', 'Noto Emoji', sans-serif;
 }
 @media (max-width: 768px) {
   .row {

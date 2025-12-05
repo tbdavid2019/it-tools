@@ -22,6 +22,19 @@ const formatDay = (tz: string) => {
   return formatter.format(now.value);
 };
 
+const localTime = computed(() => ({
+  time: new Intl.DateTimeFormat('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: !show24h.value,
+  }).format(now.value),
+  day: new Intl.DateTimeFormat('en-GB', {
+    weekday: 'short',
+    day: '2-digit',
+    month: '2-digit',
+  }).format(now.value),
+}));
+
 const groups = [
   {
     name: 'Americas',
@@ -130,6 +143,11 @@ onBeforeUnmount(() => {
         </c-button>
       </div>
     </div>
+    <n-card size="small" class="local">
+      <div class="local-title">{{ $t('tools.world-clock.local') }}</div>
+      <div class="local-time">{{ localTime.time }}</div>
+      <div class="local-day">{{ localTime.day }}</div>
+    </n-card>
     <div class="grid">
       <n-card v-for="group in groups" :key="group.name" class="zone" size="small" :title="group.name">
         <div v-for="item in group.items" :key="item.tz" class="row">
@@ -157,6 +175,21 @@ onBeforeUnmount(() => {
 .title {
   font-size: 20px;
   font-weight: 600;
+}
+.local {
+  margin-bottom: 12px;
+  text-align: center;
+}
+.local-title {
+  font-weight: 600;
+  color: #555;
+}
+.local-time {
+  font-size: 26px;
+  font-weight: 700;
+}
+.local-day {
+  color: #777;
 }
 .grid {
   display: grid;
