@@ -43,6 +43,7 @@ import { tool as userAgentParser } from './user-agent-parser';
 import { tool as ipv4SubnetCalculator } from './ipv4-subnet-calculator';
 import { tool as dockerRunToDockerComposeConverter } from './docker-run-to-docker-compose-converter';
 import { tool as htmlWysiwygEditor } from './html-wysiwyg-editor';
+import { tool as countdownTimer } from './countdown-timer';
 import { tool as rsaKeyPairGenerator } from './rsa-key-pair-generator';
 import { tool as textToNatoAlphabet } from './text-to-nato-alphabet';
 import { tool as slugifyString } from './slugify-string';
@@ -89,6 +90,7 @@ import { tool as uuidGenerator } from './uuid-generator';
 import { tool as macAddressLookup } from './mac-address-lookup';
 import { tool as xmlFormatter } from './xml-formatter';
 import { tool as yamlViewer } from './yaml-viewer';
+import { tool as fancyTextGenerator } from './fancy-text-generator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -170,7 +172,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Measurement',
-    components: [chronometer, temperatureConverter, benchmarkBuilder],
+    components: [chronometer, countdownTimer, temperatureConverter, benchmarkBuilder],
   },
   {
     name: 'Text',
@@ -187,6 +189,7 @@ export const toolsByCategory: ToolCategory[] = [
       textToUnicode,
       tongWenConverter,
       markdownToHtml,
+      fancyTextGenerator,
     ],
   },
   {

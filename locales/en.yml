@@ -79,6 +79,23 @@ tools:
     title: Chronometer
     description: Monitor the duration of a thing. Basically a chronometer with simple chronometer features.
 
+  countdown-timer:
+    title: Countdown timer
+    description: Set a countdown and track remaining time
+    hours: Hours
+    minutes: Minutes
+    seconds: Seconds
+    start: Start
+    cancel: Cancel
+    reset: Reset
+    copyRemaining: Copy remaining time
+
+  fancy-text-generator:
+    title: Fancy text generator
+    description: Convert text into multiple Unicode fancy styles for social posts or nicknames
+    placeholder: Enter text to stylize…
+    copy: Copy
+
   token-generator:
     title: Token generator
     description: Generate random string with the chars you want, uppercase or lowercase letters, numbers and/or symbols.

@@ -74,6 +74,23 @@ tools:
   chronometer:
     title: 计时器
     description: 监控事物的持续时间。基本上是一种具有简单计时器功能的计时器。
+
+  countdown-timer:
+    title: 倒数计时器
+    description: 设置倒数并追踪剩余时间
+    hours: 时
+    minutes: 分
+    seconds: 秒
+    start: 开始
+    cancel: 取消
+    reset: 重设
+    copyRemaining: 复制剩余时间
+
+  fancy-text-generator:
+    title: 特殊字体生成器
+    description: 将文字转换成多种 Unicode 特殊样式，方便社群贴文或昵称
+    placeholder: 输入要转换的文字…
+    copy: 复制
   token-generator:
     title: Token 生成器
     description: 使用您想要的字符、大写或小写字母、数字和/或符号生成随机字符串。

@@ -15,6 +15,7 @@
 - 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉
 - QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式
 - QR 解析工具：新增支援貼上剪貼簿圖片直接解析
+- 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間
 ![alt text](image.png)
 
 
