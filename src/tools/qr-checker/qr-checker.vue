@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Html5Qrcode, Html5QrcodeScannerState, Html5QrcodeSupportedFormats } from 'html5-qrcode';
-import { onBeforeUnmount } from 'vue';
+import { onBeforeUnmount, onMounted } from 'vue';
 import { useClipboard } from '@vueuse/core';
 
 const fileInput = ref<HTMLInputElement | null>(null);
@@ -19,10 +19,19 @@ const addResult = (text: string) => {
 };
 
 const stopCamera = async () => {
-  if (scanner && scanner.getState() === Html5QrcodeScannerState.SCANNING) {
-    await scanner.stop();
+  if (scanner) {
+    if (scanner.getState() === Html5QrcodeScannerState.SCANNING) {
+      await scanner.stop();
+    }
+    try {
+      await scanner.clear();
+    } catch (err) {
+      // ignore clear errors
+    }
+    scanner = null;
   }
   scanning.value = false;
+  cameraEnabled.value = false;
 };
 
 const startCamera = async () => {
@@ -47,22 +56,41 @@ const startCamera = async () => {
   }
 };
 
+const decodeFile = async (file: File) => {
+  if (!file.type.startsWith('image/')) {
+    error.value = '貼上的不是圖片檔';
+    return;
+  }
+  error.value = '';
+  await stopCamera();
+  try {
+    const id = previewRef.value?.id ?? 'qr-preview';
+    const html5 = new Html5Qrcode(id);
+    const res = await html5.scanFile(file, true);
+    addResult(res);
+  } catch (err: any) {
+    error.value = err?.message ?? 'Failed to decode image';
+  }
+};
+
 const onFileChange = async (e: Event) => {
   const target = e.target as HTMLInputElement;
   const file = target.files?.[0];
   if (!file) return;
-  error.value = '';
-  const reader = new FileReader();
-  reader.onload = async () => {
-    try {
-      const html5 = new Html5Qrcode('qr-preview');
-      const res = await html5.scanFile(file, true);
-      addResult(res);
-    } catch (err: any) {
-      error.value = err?.message ?? 'Failed to decode image';
-    }
-  };
-  reader.readAsDataURL(file);
+  await decodeFile(file);
+  target.value = '';
+};
+
+const handlePaste = async (event: ClipboardEvent) => {
+  const items = event.clipboardData?.items;
+  if (!items) return;
+  const fileItem = Array.from(items).find(
+    item => item.kind === 'file' && item.type.startsWith('image/'),
+  );
+  const file = fileItem?.getAsFile();
+  if (file) {
+    await decodeFile(file);
+  }
 };
 
 const clearAll = async () => {
@@ -72,7 +100,14 @@ const clearAll = async () => {
   cameraEnabled.value = false;
 };
 
-onBeforeUnmount(() => stopCamera());
+onMounted(() => {
+  window.addEventListener('paste', handlePaste);
+});
+
+onBeforeUnmount(() => {
+  stopCamera();
+  window.removeEventListener('paste', handlePaste);
+});
 
 const { copy } = useClipboard();
 </script>
@@ -87,6 +122,7 @@ const { copy } = useClipboard();
           <c-button secondary @click="startCamera" :disabled="scanning">開啟相機掃描</c-button>
           <c-button tertiary @click="clearAll">清除</c-button>
         </div>
+        <div class="hint">支援直接貼上圖片（Clipboard）後自動解析。</div>
 
         <div v-if="availableCameras.length > 0" flex gap-2 items-center mb-2>
           <span>Camera:</span>
@@ -130,6 +166,12 @@ const { copy } = useClipboard();
   gap: 8px;
   max-height: 360px;
   overflow: auto;
+}
+.hint {
+  color: #666;
+  font-size: 12px;
+  margin-top: -4px;
+  margin-bottom: 12px;
 }
 .result-item {
   border: 1px solid #e5e7eb;
