@@ -11,12 +11,12 @@
 | # | 更新內容 |
 | --- | --- |
 | 1 | 預設介面語言改為繁體中文 |
-| 2 | 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉（https://tool.david888.com/tongwen-converter） |
-| 3 | QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式（https://tool.david888.com/qrcode-generator） |
-| 4 | QR 解析工具：新增支援貼上剪貼簿圖片直接解析（https://tool.david888.com/qr-checker） |
-| 5 | 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間（https://tool.david888.com/countdown-timer） |
-| 6 | 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製（https://tool.david888.com/fancy-text） |
-| 7 | 新增「世界時間」工具（Measurement 分類），快速查看多城市時間並切換 12/24 小時制（https://tool.david888.com/world-clock） |
+| 2 | 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉（https://tool.david888.com/tongwen-converter ） |
+| 3 | QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式（https://tool.david888.com/qrcode-generator ） |
+| 4 | QR 解析工具：新增支援貼上剪貼簿圖片直接解析（https://tool.david888.com/qr-checker ） |
+| 5 | 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間（https://tool.david888.com/countdown-timer ） |
+| 6 | 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製（https://tool.david888.com/fancy-text ） |
+| 7 | 新增「世界時間」工具（Measurement 分類），快速查看多城市時間並切換 12/24 小時制（https://tool.david888.com/world-clock ） |
 
 
 ![alt text](image.png)
