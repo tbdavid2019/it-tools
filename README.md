@@ -1,8 +1,4 @@
-<picture>
-    <source srcset="./.github/logo-dark.png" media="(prefers-color-scheme: light)">
-    <source srcset="./.github/logo-white.png" media="(prefers-color-scheme: dark)">
-    <img src="./.github/logo-dark.png" alt="logo">
-</picture>
+
 
 <p align="center">
 一套為開發者與 IT 工作者準備的線上工具集合。<a href="https://tool.david888.com">立即體驗！</a>
@@ -59,7 +55,7 @@ pnpm preview
 docker build -t tool.david888 .
 docker run -d -p 80:80 tool.david888
 
-docker build -t tbdavid2019/tool.david888:latest
+docker build -t tbdavid2019/tool.david888:latest .
 docker push tbdavid2019/tool.david888:latest
 ```
 
