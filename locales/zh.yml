@@ -91,6 +91,10 @@ tools:
     description: 将文字转换成多种 Unicode 特殊样式，方便社群贴文或昵称
     placeholder: 输入要转换的文字…
     copy: 复制
+
+  world-clock:
+    title: 世界时间
+    description: 查看多個城市的当前时间，可切换 12/24 小时制
   token-generator:
     title: Token 生成器
     description: 使用您想要的字符、大写或小写字母、数字和/或符号生成随机字符串。

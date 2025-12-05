@@ -96,6 +96,10 @@ tools:
     placeholder: Enter text to stylize…
     copy: Copy
 
+  world-clock:
+    title: World clock
+    description: View current time across popular cities and switch 12h/24h format
+
   token-generator:
     title: Token generator
     description: Generate random string with the chars you want, uppercase or lowercase letters, numbers and/or symbols.

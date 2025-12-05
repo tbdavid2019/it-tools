@@ -91,6 +91,7 @@ import { tool as macAddressLookup } from './mac-address-lookup';
 import { tool as xmlFormatter } from './xml-formatter';
 import { tool as yamlViewer } from './yaml-viewer';
 import { tool as fancyTextGenerator } from './fancy-text-generator';
+import { tool as worldClock } from './world-clock';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -172,7 +173,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Measurement',
-    components: [chronometer, countdownTimer, temperatureConverter, benchmarkBuilder],
+    components: [chronometer, countdownTimer, worldClock, temperatureConverter, benchmarkBuilder],
   },
   {
     name: 'Text',
