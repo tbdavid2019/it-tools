@@ -141,6 +141,28 @@ const styles = [
       ),
   },
   {
+    name: 'Negative Circled',
+    transform: (v: string) =>
+      transformWithMapping(
+        v,
+        makeMap(
+          '🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩'.toLowerCase(),
+          '🅐🅑🅒🅓🅔🅕🅖🅗🅘🅙🅚🅛🅜🅝🅞🅟🅠🅡🅢🅣🅤🅥🅦🅧🅨🅩',
+        ),
+      ),
+  },
+  {
+    name: 'Negative Square',
+    transform: (v: string) =>
+      transformWithMapping(
+        v,
+        makeMap(
+          '🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉'.toLowerCase(),
+          '🅰🅱🅲🅳🅴🅵🅶🅷🅸🅹🅺🅻🅼🅽🅾🅿🆀🆁🆂🆃🆄🆅🆆🆇🆈🆉',
+        ),
+      ),
+  },
+  {
     name: 'Full width',
     transform: (v: string) =>
       transformWithMapping(
@@ -166,6 +188,14 @@ const styles = [
   {
     name: 'Underline',
     transform: (v: string) => strike(v, '\u0332'),
+  },
+  {
+    name: 'Double Overline',
+    transform: (v: string) => strike(v, '\u035e\u035f'),
+  },
+  {
+    name: 'Double Underline',
+    transform: (v: string) => strike(v, '\u0347'),
   },
   {
     name: 'Strikethrough',
