@@ -17,6 +17,9 @@
 | 5 | 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間（https://tool.david888.com/countdown-timer ） |
 | 6 | 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製（https://tool.david888.com/fancy-text ） |
 | 7 | 新增「世界時間」工具（Measurement 分類），快速查看多城市時間並切換 12/24 小時制（https://tool.david888.com/world-clock ） |
+| 8 | 新增「生日/年齡計算器」：農曆、生肖、星座、實歲/虛歲、下次生日倒數一次看（https://tool.david888.com/birthday-calculator ） |
+| 9 | 新增「狗年齡計算器」：依體型換算狗狗對應人類年齡（https://tool.david888.com/dog-age-calculator ） |
+| 10 | 新增「貓年齡計算器」：換算貓咪對應人類年齡（https://tool.david888.com/cat-age-calculator ） |
 
 
 ![alt text](image.png)
