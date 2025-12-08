@@ -92,6 +92,9 @@ import { tool as xmlFormatter } from './xml-formatter';
 import { tool as yamlViewer } from './yaml-viewer';
 import { tool as fancyTextGenerator } from './fancy-text-generator';
 import { tool as worldClock } from './world-clock';
+import { tool as birthdayCalculator } from './birthday-calculator';
+import { tool as dogAgeCalculator } from './dog-age-calculator';
+import { tool as catAgeCalculator } from './cat-age-calculator';
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -173,7 +176,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Measurement',
-    components: [chronometer, countdownTimer, worldClock, temperatureConverter, benchmarkBuilder],
+    components: [chronometer, countdownTimer, worldClock, temperatureConverter, benchmarkBuilder, birthdayCalculator, dogAgeCalculator, catAgeCalculator],
   },
   {
     name: 'Text',

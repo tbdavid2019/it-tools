@@ -100,6 +100,77 @@ tools:
     title: World clock
     description: View current time across popular cities and switch 12h/24h format
 
+  birthday-calculator:
+    title: Birthday calculator
+    description: Enter a birth date to get Gregorian, ROC, lunar info, age breakdown, and zodiac details
+    fields:
+      birthDate: Birth date
+      gregorian: Gregorian date
+      roc: ROC date
+      lunar: Lunar date
+      westernZodiac: Western zodiac
+      chineseZodiac: Chinese zodiac
+      realAge: Age
+      virtualAge: East Asian age
+      ageDetail: Age detail
+      ageInMonths: Age in months
+      daysLived: Days lived
+      nextBirthday: Next birthday
+    units:
+      years: years
+      months: months
+      days: days
+    and: and
+    inDays: '{days} days to go'
+    futureMessage: The selected date is in the future. Results are based on today.
+    lunarUnavailable: Lunar date is available for years 1900-2099.
+    zodiac:
+      capricorn: Capricorn
+      aquarius: Aquarius
+      pisces: Pisces
+      aries: Aries
+      taurus: Taurus
+      gemini: Gemini
+      cancer: Cancer
+      leo: Leo
+      virgo: Virgo
+      libra: Libra
+      scorpio: Scorpio
+      sagittarius: Sagittarius
+
+  dog-age-calculator:
+    title: Dog age calculator
+    description: Convert a dog’s age to human age with size-specific formulas
+    fields:
+      size: Dog size
+      age: Dog age
+    sizes:
+      small: Small
+      medium: Medium
+      large: Large
+    units:
+      years: years
+      months: months
+    actions:
+      calculate: Calculate
+      reset: Reset
+    resultTitle: Equivalent human age
+    subtitle: About {months} human months
+
+  cat-age-calculator:
+    title: Cat age calculator
+    description: Convert a cat’s age to human age with detailed month precision
+    fields:
+      age: Cat age
+    units:
+      years: years
+      months: months
+    actions:
+      calculate: Calculate
+      reset: Reset
+    resultTitle: Equivalent human age
+    subtitle: About {months} human months
+
   token-generator:
     title: Token generator
     description: Generate random string with the chars you want, uppercase or lowercase letters, numbers and/or symbols.

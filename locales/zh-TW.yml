@@ -95,6 +95,77 @@ tools:
   world-clock:
     title: 世界時間
     description: 查看多個城市的現在時間，可切換 12/24 小時制
+
+  birthday-calculator:
+    title: 生日/年齡計算器
+    description: 輸入西元生日，快速取得農曆、生肖、星座、實歲/虛歲與下一次生日倒數
+    fields:
+      birthDate: 生日
+      gregorian: 西元日期
+      roc: 中華民國
+      lunar: 農曆
+      westernZodiac: 星座
+      chineseZodiac: 生肖
+      realAge: 實歲
+      virtualAge: 虛歲
+      ageDetail: 年齡（月）
+      ageInMonths: 月齡
+      daysLived: 出生天數
+      nextBirthday: 下次生日
+    units:
+      years: 歲
+      months: 個月
+      days: 天
+    and: 又
+    inDays: 還有 {days} 天
+    futureMessage: 選擇的日期在未來，以下以今天為基準顯示。
+    lunarUnavailable: 農曆僅支援 1900-2099 年。
+    zodiac:
+      capricorn: 魔羯座
+      aquarius: 水瓶座
+      pisces: 雙魚座
+      aries: 牡羊座
+      taurus: 金牛座
+      gemini: 雙子座
+      cancer: 巨蟹座
+      leo: 獅子座
+      virgo: 處女座
+      libra: 天秤座
+      scorpio: 天蠍座
+      sagittarius: 射手座
+
+  dog-age-calculator:
+    title: 狗年齡計算器
+    description: 依照體型換算狗狗的對應人類年齡
+    fields:
+      size: 狗體型
+      age: 狗年齡
+    sizes:
+      small: 小型
+      medium: 中型
+      large: 大型
+    units:
+      years: 歲
+      months: 個月
+    actions:
+      calculate: 換算
+      reset: 重選
+    resultTitle: 等於人類年齡
+    subtitle: 約等於人類 {months} 個月
+
+  cat-age-calculator:
+    title: 貓年齡計算器
+    description: 換算貓咪年齡，顯示對應的人類年齡
+    fields:
+      age: 貓年齡
+    units:
+      years: 歲
+      months: 個月
+    actions:
+      calculate: 換算
+      reset: 重選
+    resultTitle: 等於人類年齡
+    subtitle: 約等於人類 {months} 個月
   token-generator:
     title: Token 生成器
     description: 使用您想要的字元、大寫或小寫字母、數字和/或符號生成隨機字串。
