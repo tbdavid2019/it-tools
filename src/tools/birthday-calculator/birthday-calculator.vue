@@ -25,7 +25,6 @@ const result = computed(() => {
 
   const isFuture = isAfter(birthDate, today);
   const age = isFuture ? 0 : differenceInYears(today, birthDate);
-  const virtualAge = isFuture ? 0 : age + 1;
   const duration = isFuture ? null : intervalToDuration({ start: birthDate, end: today });
   const daysLived = isFuture ? 0 : differenceInCalendarDays(today, birthDate);
 
@@ -40,9 +39,13 @@ const result = computed(() => {
   const daysUntilNext = differenceInCalendarDays(nextBirthday, today);
 
   const lunar = solarToLunar(birthDate);
+  const todayLunar = solarToLunar(today);
   const lunarInfo = lunar ? formatLunarDate(lunar) : null;
   const westernZodiac = getWesternZodiac(birthDate);
   const chineseZodiac = lunar ? lunarInfo?.zodiac ?? getChineseZodiac(birthDate.getFullYear()) : getChineseZodiac(birthDate.getFullYear());
+
+  const virtualAge =
+    isFuture || !todayLunar || !lunar ? age + 1 : Math.max(1, todayLunar.year - lunar.year + 1);
 
   return {
     birthDate,

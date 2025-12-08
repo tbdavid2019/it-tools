@@ -34,14 +34,16 @@ function recalculate() {
   <c-card>
     <n-space vertical size="large">
       <n-form label-placement="top" label-width="auto">
-        <n-form-item :label="t('tools.cat-age-calculator.fields.age')" path="age">
-          <n-space>
-            <n-input-number v-model:value="years" :min="0" :max="40" :precision="0" />
-            <span>{{ t('tools.cat-age-calculator.units.years') }}</span>
-            <n-input-number v-model:value="months" :min="0" :max="11" :precision="0" />
-            <span>{{ t('tools.cat-age-calculator.units.months') }}</span>
-          </n-space>
-        </n-form-item>
+        <n-grid cols="1 640:2" x-gap="16" y-gap="8">
+          <n-form-item-gi :span="1" :label="t('tools.cat-age-calculator.fields.age')" path="age">
+            <n-space>
+              <n-input-number v-model:value="years" :min="0" :max="40" :precision="0" />
+              <span>{{ t('tools.cat-age-calculator.units.years') }}</span>
+              <n-input-number v-model:value="months" :min="0" :max="11" :precision="0" />
+              <span>{{ t('tools.cat-age-calculator.units.months') }}</span>
+            </n-space>
+          </n-form-item-gi>
+        </n-grid>
         <n-form-item>
           <n-space>
             <c-button type="primary" @click="recalculate">{{ t('tools.cat-age-calculator.actions.calculate') }}</c-button>

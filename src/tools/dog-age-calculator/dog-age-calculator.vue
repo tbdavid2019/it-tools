@@ -49,17 +49,17 @@ function recalculate() {
     <n-space vertical size="large">
       <n-form label-placement="top" label-width="auto">
         <n-grid cols="1 640:2" x-gap="16" y-gap="8">
-          <n-form-item :label="t('tools.dog-age-calculator.fields.size')" path="size">
+          <n-form-item-gi :span="1" :label="t('tools.dog-age-calculator.fields.size')" path="size">
             <n-select v-model:value="size" :options="sizeOptions" />
-          </n-form-item>
-          <n-form-item :label="t('tools.dog-age-calculator.fields.age')" path="age">
+          </n-form-item-gi>
+          <n-form-item-gi :span="1" :label="t('tools.dog-age-calculator.fields.age')" path="age">
             <n-space>
               <n-input-number v-model:value="years" :min="0" :max="40" :precision="0" />
               <span>{{ t('tools.dog-age-calculator.units.years') }}</span>
               <n-input-number v-model:value="months" :min="0" :max="11" :precision="0" />
               <span>{{ t('tools.dog-age-calculator.units.months') }}</span>
             </n-space>
-          </n-form-item>
+          </n-form-item-gi>
         </n-grid>
         <n-form-item>
           <n-space>
