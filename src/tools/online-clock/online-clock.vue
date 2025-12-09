@@ -216,9 +216,22 @@ const flipDigits = computed(() => {
     </div>
 
     <div v-else class="flip">
-      <div class="flip-row">
-        <FlipCard v-for="(digit, idx) in flipDigits" :key="idx" :value="digit" />
+      <div class="flip-group">
+        <FlipCard :value="parts.hh[0]" />
+        <FlipCard :value="parts.hh[1]" />
       </div>
+      <div class="flip-colon">:</div>
+      <div class="flip-group">
+        <FlipCard :value="parts.mm[0]" />
+        <FlipCard :value="parts.mm[1]" />
+      </div>
+      <template v-if="showSeconds">
+        <div class="flip-colon">:</div>
+        <div class="flip-group">
+          <FlipCard :value="parts.ss[0]" />
+          <FlipCard :value="parts.ss[1]" />
+        </div>
+      </template>
     </div>
 
     <div class="tabs">
@@ -470,13 +483,25 @@ const flipDigits = computed(() => {
   margin: 24px auto 8px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: clamp(8px, 2vw, 24px);
 }
 
-.flip-row {
+.flip-group {
   display: flex;
   gap: 8px;
-  justify-content: center;
-  align-items: center;
+}
+
+.flip-colon {
+  font-size: clamp(36px, 7vw, 64px);
+  font-weight: 700;
+  color: #e5e7eb;
+  line-height: 1;
+  padding-bottom: 8px;
+}
+
+.clock-page.fullscreen .flip-colon {
+  font-size: clamp(60px, 10vw, 180px);
 }
 
 .tabs {
