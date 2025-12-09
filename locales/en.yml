@@ -171,6 +171,19 @@ tools:
     resultTitle: Equivalent human age
     subtitle: About {months} human months
 
+  online-clock:
+    title: Online clock
+    description: View current time with digital, analog, or flip styles plus timezone/seconds/date toggles
+    timezone: Timezone
+    showSeconds: Show seconds
+    showDate: Show date
+    fullscreen: Fullscreen
+    exitFullscreen: Exit fullscreen
+    modes:
+      digital: Digital
+      analog: Analog
+      flip: Flip clock
+
   token-generator:
     title: Token generator
     description: Generate random string with the chars you want, uppercase or lowercase letters, numbers and/or symbols.

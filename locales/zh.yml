@@ -166,6 +166,19 @@ tools:
       reset: 重选
     resultTitle: 等于人类年龄
     subtitle: 约等于人类 {months} 个月
+
+  online-clock:
+    title: 线上时钟
+    description: 可切换数位、模拟、翻页样式，支援时区、日期与秒数显示
+    timezone: 时区
+    showSeconds: 显示秒
+    showDate: 显示日期
+    fullscreen: 全屏
+    exitFullscreen: 退出全屏
+    modes:
+      digital: 数码时钟
+      analog: 模拟时钟
+      flip: 翻页时钟
   token-generator:
     title: Token 生成器
     description: 使用您想要的字符、大写或小写字母、数字和/或符号生成随机字符串。

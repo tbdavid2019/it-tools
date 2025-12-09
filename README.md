@@ -20,6 +20,8 @@
 | 8 | 新增「生日/年齡計算器」：農曆、生肖、星座、實歲/虛歲、下次生日倒數一次看（https://tool.david888.com/birthday-calculator ） |
 | 9 | 新增「狗年齡計算器」：依體型換算狗狗對應人類年齡（https://tool.david888.com/dog-age-calculator ） |
 | 10 | 新增「貓年齡計算器」：換算貓咪對應人類年齡（https://tool.david888.com/cat-age-calculator ） |
+| 11 | 線上時鐘升級：修復翻頁/模擬時鐘排版、新增「網路校時」功能（HTTP Time Sync）、全螢幕模式自動隱藏控制項（https://tool.david888.com/online-clock ） |
+| 12 | 介面調整：將 Measurement（測量工具）分類移至選單最上方，方便使用 |
 
 
 ![alt text](image.png)

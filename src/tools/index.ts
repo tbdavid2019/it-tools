@@ -95,8 +95,13 @@ import { tool as worldClock } from './world-clock';
 import { tool as birthdayCalculator } from './birthday-calculator';
 import { tool as dogAgeCalculator } from './dog-age-calculator';
 import { tool as catAgeCalculator } from './cat-age-calculator';
+import { tool as onlineClock } from './online-clock';
 
 export const toolsByCategory: ToolCategory[] = [
+  {
+    name: 'Measurement',
+    components: [chronometer, countdownTimer, worldClock, temperatureConverter, benchmarkBuilder, birthdayCalculator, dogAgeCalculator, catAgeCalculator, onlineClock],
+  },
   {
     name: 'Crypto',
     components: [tokenGenerator, hashText, bcrypt, uuidGenerator, ulidGenerator, cypher, bip39, hmacGenerator, rsaKeyPairGenerator, passwordStrengthAnalyser, pdfSignatureChecker],
@@ -173,10 +178,6 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Math',
     components: [mathEvaluator, etaCalculator, percentageCalculator],
-  },
-  {
-    name: 'Measurement',
-    components: [chronometer, countdownTimer, worldClock, temperatureConverter, benchmarkBuilder, birthdayCalculator, dogAgeCalculator, catAgeCalculator],
   },
   {
     name: 'Text',
