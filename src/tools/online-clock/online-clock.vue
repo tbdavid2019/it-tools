@@ -10,7 +10,7 @@ const mode = useLocalStorage<'digital' | 'analog' | 'flip'>('onlineClock/mode', 
 const showSeconds = useLocalStorage<boolean>('onlineClock/showSeconds', true);
 const showDate = useLocalStorage<boolean>('onlineClock/showDate', true);
 const timezone = useLocalStorage<string>('onlineClock/timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
-const useNetworkTime = useLocalStorage<boolean>('onlineClock/useNetworkTime', false);
+const useNetworkTime = useLocalStorage<boolean>('onlineClock/useNetworkTime', true);
 const clockRef = ref<HTMLElement | null>(null);
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(clockRef);
 

@@ -36,11 +36,13 @@ watch(
     <!-- Top Leaf: Shows Current value. Flips down (0 -> -90) -->
     <div class="digit leaf-top" :class="{ flipping: isFlipping }">
       {{ current }}
+      <div class="shadow-top"></div>
     </div>
 
     <!-- Bottom Leaf: Shows Next value. Flips down (90 -> 0) -->
     <div class="digit leaf-bottom" :class="{ flipping: isFlipping }">
       {{ next }}
+      <div class="shadow-bottom"></div>
     </div>
     
     <!-- Divider line -->
@@ -58,7 +60,7 @@ watch(
   font-size: clamp(36px, 7vw, 64px);
   font-weight: 700;
   color: #e5e7eb;
-  perspective: 400px;
+  perspective: 300px;
   box-shadow: 0 8px 14px rgba(0, 0, 0, 0.35);
 }
 
@@ -100,7 +102,7 @@ watch(
 }
 
 .leaf-top.flipping {
-  animation: flipTop 0.6s ease-in-out;
+  animation: flipTop 0.3s ease-in forwards;
 }
 
 .leaf-bottom {
@@ -113,7 +115,36 @@ watch(
 }
 
 .leaf-bottom.flipping {
-  animation: flipBottom 0.6s ease-in-out;
+  animation: flipBottom 0.3s 0.3s ease-out forwards;
+}
+
+.shadow-top,
+.shadow-bottom {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+}
+
+.shadow-top {
+  top: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+  opacity: 0;
+}
+
+.leaf-top.flipping .shadow-top {
+  animation: showShadow 0.3s ease-in forwards;
+}
+
+.shadow-bottom {
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 100%);
+  opacity: 1;
+}
+
+.leaf-bottom.flipping .shadow-bottom {
+  animation: hideShadow 0.3s 0.3s ease-out forwards;
 }
 
 .divider {
@@ -142,5 +173,15 @@ watch(
   100% {
     transform: rotateX(0deg);
   }
+}
+
+@keyframes showShadow {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes hideShadow {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }
 </style>
