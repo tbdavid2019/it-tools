@@ -220,13 +220,11 @@ const flipDigits = computed(() => {
         <FlipCard :value="parts.hh[0]" />
         <FlipCard :value="parts.hh[1]" />
       </div>
-      <div class="flip-colon">:</div>
       <div class="flip-group">
         <FlipCard :value="parts.mm[0]" />
         <FlipCard :value="parts.mm[1]" />
       </div>
       <template v-if="showSeconds">
-        <div class="flip-colon">:</div>
         <div class="flip-group">
           <FlipCard :value="parts.ss[0]" />
           <FlipCard :value="parts.ss[1]" />
@@ -484,24 +482,12 @@ const flipDigits = computed(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: clamp(8px, 2vw, 24px);
+  gap: clamp(12px, 2vw, 24px);
 }
 
 .flip-group {
   display: flex;
   gap: 8px;
-}
-
-.flip-colon {
-  font-size: clamp(36px, 7vw, 64px);
-  font-weight: 700;
-  color: #e5e7eb;
-  line-height: 1;
-  padding-bottom: 8px;
-}
-
-.clock-page.fullscreen .flip-colon {
-  font-size: clamp(60px, 10vw, 180px);
 }
 
 .tabs {
