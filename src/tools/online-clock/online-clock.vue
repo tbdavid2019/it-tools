@@ -6,7 +6,7 @@ import FlipCard from './FlipCard.vue';
 
 const { t, locale } = useI18n();
 
-const mode = useLocalStorage<'digital' | 'analog' | 'flip'>('onlineClock/mode', 'digital');
+const mode = useLocalStorage<'digital' | 'analog' | 'flip' | 'chinese'>('onlineClock/mode', 'digital');
 const showSeconds = useLocalStorage<boolean>('onlineClock/showSeconds', true);
 const showDate = useLocalStorage<boolean>('onlineClock/showDate', true);
 const timezone = useLocalStorage<string>('onlineClock/timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
@@ -108,6 +108,53 @@ const timeText = computed(() =>
     timeZone: timezone.value,
   }).format(zonedNow.value),
 );
+
+// Chinese Clock Logic
+const numberToChinese = (num: number) => {
+  const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+  if (num <= 10) return digits[num];
+  if (num < 20) return '十' + digits[num % 10];
+  if (num % 10 === 0) return digits[Math.floor(num / 10)] + '十';
+  return digits[Math.floor(num / 10)] + '十' + digits[num % 10];
+};
+
+const getChinesePeriod = (hour: number) => {
+  if (hour < 6) return '凌晨';
+  if (hour < 12) return '上午';
+  if (hour === 12) return '中午';
+  if (hour < 18) return '下午';
+  return '晚上';
+};
+
+const chineseParts = computed(() => {
+  const h = parts.value.hours;
+  const m = parts.value.minutes;
+  const s = parts.value.seconds;
+
+  const hText = numberToChinese(h);
+  // Special case for "Two" in time: "兩" vs "二". User sample used "二". Sticking to "二" as implemented in numberToChinese.
+  // Minutes/Seconds logic: no zero padding as requested.
+  const mText = numberToChinese(m);
+  const sText = numberToChinese(s);
+
+  const timeString = (hourStr: string) => {
+    let str = `${hourStr}點${mText}分`;
+    if (showSeconds.value) {
+      str += `${sText}秒`;
+    }
+    return str;
+  };
+
+  const v24 = timeString(hText);
+
+  const period = getChinesePeriod(h);
+  let h12 = h % 12;
+  if (h12 === 0) h12 = 12;
+  const h12Text = numberToChinese(h12);
+  const v12 = `${period}${timeString(h12Text)}`;
+
+  return { v24, v12 };
+});
 
 const timezones = computed(() => {
   // Keep list short enough but still useful; sorted so UX is predictable.
@@ -215,7 +262,7 @@ const flipDigits = computed(() => {
       </div>
     </div>
 
-    <div v-else class="flip">
+    <div v-else-if="mode === 'flip'" class="flip">
       <div class="flip-group">
         <FlipCard :value="parts.hh[0]" />
         <FlipCard :value="parts.hh[1]" />
@@ -232,6 +279,11 @@ const flipDigits = computed(() => {
       </template>
     </div>
 
+    <div v-else class="chinese">
+      <div class="chinese-row main">{{ chineseParts.v24 }}</div>
+      <div class="chinese-row sub">{{ chineseParts.v12 }}</div>
+    </div>
+
     <div class="tabs">
       <c-button quaternary :type="mode === 'digital' ? 'primary' : 'default'" @click="mode = 'digital'">
         {{ t('tools.online-clock.modes.digital') }}
@@ -241,6 +293,9 @@ const flipDigits = computed(() => {
       </c-button>
       <c-button quaternary :type="mode === 'flip' ? 'primary' : 'default'" @click="mode = 'flip'">
         {{ t('tools.online-clock.modes.flip') }}
+      </c-button>
+      <c-button quaternary :type="mode === 'chinese' ? 'primary' : 'default'" @click="mode = 'chinese'">
+        {{ '中文' }}
       </c-button>
     </div>
   </div>
@@ -488,6 +543,37 @@ const flipDigits = computed(() => {
 .flip-group {
   display: flex;
   gap: 8px;
+}
+
+.chinese {
+  margin: 32px 0 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chinese-row {
+  line-height: 1.2;
+}
+
+.chinese-row.main {
+  font-size: clamp(24px, 5vw, 64px);
+  font-weight: 700;
+  color: #f5f6fa;
+}
+
+.chinese-row.sub {
+  font-size: clamp(16px, 3vw, 40px);
+  color: #9ba1ad;
+}
+
+.clock-page.fullscreen .chinese-row.main {
+  font-size: clamp(40px, 10vw, 120px);
+}
+
+.clock-page.fullscreen .chinese-row.sub {
+  font-size: clamp(24px, 6vw, 60px);
 }
 
 .tabs {
