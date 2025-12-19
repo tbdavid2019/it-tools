@@ -9,6 +9,7 @@ const { t, locale } = useI18n();
 const mode = useLocalStorage<'digital' | 'analog' | 'flip' | 'chinese'>('onlineClock/mode', 'digital');
 const showSeconds = useLocalStorage<boolean>('onlineClock/showSeconds', true);
 const showDate = useLocalStorage<boolean>('onlineClock/showDate', true);
+const use12HourFormat = useLocalStorage<boolean>('onlineClock/use12HourFormat', false);
 const timezone = useLocalStorage<string>('onlineClock/timezone', Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
 const useNetworkTime = useLocalStorage<boolean>('onlineClock/useNetworkTime', true);
 const clockRef = ref<HTMLElement | null>(null);
@@ -80,9 +81,14 @@ const zonedNow = computed(() => {
 
 const parts = computed(() => {
   const date = zonedNow.value;
-  const hours = date.getHours();
+  let hours = date.getHours();
   const minutes = date.getMinutes();
   const seconds = date.getSeconds();
+
+  if (use12HourFormat.value) {
+    hours = hours % 12;
+    if (hours === 0) hours = 12;
+  }
 
   const pad = (v: number) => v.toString().padStart(2, '0');
   return {
@@ -105,6 +111,7 @@ const timeText = computed(() =>
     hour: '2-digit',
     minute: '2-digit',
     second: showSeconds.value ? '2-digit' : undefined,
+    hour12: use12HourFormat.value,
     timeZone: timezone.value,
   }).format(zonedNow.value),
 );
@@ -127,13 +134,11 @@ const getChinesePeriod = (hour: number) => {
 };
 
 const chineseParts = computed(() => {
-  const h = parts.value.hours;
-  const m = parts.value.minutes;
-  const s = parts.value.seconds;
+  const date = zonedNow.value;
+  const h = date.getHours();
+  const m = date.getMinutes();
+  const s = date.getSeconds();
 
-  const hText = numberToChinese(h);
-  // Special case for "Two" in time: "兩" vs "二". User sample used "二". Sticking to "二" as implemented in numberToChinese.
-  // Minutes/Seconds logic: no zero padding as requested.
   const mText = numberToChinese(m);
   const sText = numberToChinese(s);
 
@@ -145,15 +150,16 @@ const chineseParts = computed(() => {
     return str;
   };
 
-  const v24 = timeString(hText);
-
-  const period = getChinesePeriod(h);
-  let h12 = h % 12;
-  if (h12 === 0) h12 = 12;
-  const h12Text = numberToChinese(h12);
-  const v12 = `${period}${timeString(h12Text)}`;
-
-  return { v24, v12 };
+  if (use12HourFormat.value) {
+      const period = getChinesePeriod(h);
+      let h12 = h % 12;
+      if (h12 === 0) h12 = 12;
+      const h12Text = numberToChinese(h12);
+      return `${period}${timeString(h12Text)}`;
+  } else {
+      const hText = numberToChinese(h);
+      return timeString(hText);
+  }
 });
 
 const timezones = computed(() => {
@@ -186,9 +192,18 @@ const timezones = computed(() => {
   return tzList.map(tz => ({ label: tz, value: tz }));
 });
 
-const hourRotation = computed(() => (parts.value.hours % 12) * 30 + parts.value.minutes * 0.5 + parts.value.seconds / 120);
-const minuteRotation = computed(() => parts.value.minutes * 6 + parts.value.seconds * 0.1);
-const secondRotation = computed(() => parts.value.seconds * 6);
+const hourRotation = computed(() => {
+    const date = zonedNow.value;
+    return (date.getHours() % 12) * 30 + date.getMinutes() * 0.5 + date.getSeconds() / 120;
+});
+const minuteRotation = computed(() => {
+    const date = zonedNow.value;
+    return date.getMinutes() * 6 + date.getSeconds() * 0.1;
+});
+const secondRotation = computed(() => {
+    const date = zonedNow.value;
+    return date.getSeconds() * 6;
+});
 
 const flipDigits = computed(() => {
   const digits = `${parts.value.hh}${parts.value.mm}${showSeconds.value ? parts.value.ss : ''}`;
@@ -209,6 +224,10 @@ const flipDigits = computed(() => {
           :placeholder="t('tools.online-clock.timezone')"
           class="tz"
         />
+        <div class="control">
+          <n-switch v-model:value="use12HourFormat" size="small" />
+          <span>{{ use12HourFormat ? '12h' : '24h' }}</span>
+        </div>
         <div class="control">
           <n-switch v-model:value="showSeconds" size="small" />
           <span>{{ t('tools.online-clock.showSeconds') }}</span>
@@ -263,6 +282,9 @@ const flipDigits = computed(() => {
     </div>
 
     <div v-else-if="mode === 'flip'" class="flip">
+      <div v-if="use12HourFormat" class="flip-period">
+          {{ zonedNow.getHours() >= 12 ? 'PM' : 'AM' }}
+      </div>
       <div class="flip-group">
         <FlipCard :value="parts.hh[0]" />
         <FlipCard :value="parts.hh[1]" />
@@ -280,8 +302,7 @@ const flipDigits = computed(() => {
     </div>
 
     <div v-else class="chinese">
-      <div class="chinese-row main">{{ chineseParts.v24 }}</div>
-      <div class="chinese-row sub">{{ chineseParts.v12 }}</div>
+      <div class="chinese-row main">{{ chineseParts }}</div>
     </div>
 
     <div class="tabs">
@@ -295,7 +316,7 @@ const flipDigits = computed(() => {
         {{ t('tools.online-clock.modes.flip') }}
       </c-button>
       <c-button quaternary :type="mode === 'chinese' ? 'primary' : 'default'" @click="mode = 'chinese'">
-        {{ '中文' }}
+        {{ '中文字時鐘' }}
       </c-button>
     </div>
   </div>
@@ -538,6 +559,14 @@ const flipDigits = computed(() => {
   justify-content: center;
   align-items: center;
   gap: clamp(12px, 2vw, 24px);
+  position: relative;
+}
+
+.flip-period {
+  font-size: clamp(16px, 3vw, 32px);
+  font-weight: 700;
+  color: #9ba1ad;
+  margin-right: 8px;
 }
 
 .flip-group {
@@ -563,17 +592,8 @@ const flipDigits = computed(() => {
   color: #f5f6fa;
 }
 
-.chinese-row.sub {
-  font-size: clamp(16px, 3vw, 40px);
-  color: #9ba1ad;
-}
-
 .clock-page.fullscreen .chinese-row.main {
   font-size: clamp(40px, 10vw, 120px);
-}
-
-.clock-page.fullscreen .chinese-row.sub {
-  font-size: clamp(24px, 6vw, 60px);
 }
 
 .tabs {
