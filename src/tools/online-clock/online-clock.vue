@@ -118,11 +118,12 @@ const timeText = computed(() =>
 
 // Chinese Clock Logic
 const numberToChinese = (num: number) => {
-  const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
-  if (num <= 10) return digits[num];
-  if (num < 20) return '十' + digits[num % 10];
-  if (num % 10 === 0) return digits[Math.floor(num / 10)] + '十';
-  return digits[Math.floor(num / 10)] + '十' + digits[num % 10];
+  const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+  return num
+    .toString()
+    .split('')
+    .map(digit => digits[parseInt(digit)])
+    .join('');
 };
 
 const getChinesePeriod = (hour: number) => {
