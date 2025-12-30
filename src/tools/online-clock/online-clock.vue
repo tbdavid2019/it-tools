@@ -16,6 +16,8 @@ const clockRef = ref<HTMLElement | null>(null);
 const { isFullscreen, toggle: toggleFullscreen } = useFullscreen(clockRef);
 
 const now = useNow({ interval: 1000 });
+const smoothNow = useNow({ interval: 'requestAnimationFrame' });
+
 const timeOffset = ref(0);
 const isSyncing = ref(false);
 const syncError = ref(false);
@@ -76,6 +78,21 @@ const zonedNow = computed(() => {
   } catch (e) {
     console.warn('Timezone not supported, fallback to local', e);
     return adjustedNow.value;
+  }
+});
+
+// For Analog Clock only (Smooth Animation)
+const smoothAdjustedNow = computed(() => {
+  if (timeOffset.value === 0) return smoothNow.value;
+  return new Date(smoothNow.value.getTime() + timeOffset.value);
+});
+
+const smoothZonedNow = computed(() => {
+  try {
+    const iso = smoothAdjustedNow.value.toLocaleString('en-US', { timeZone: timezone.value });
+    return new Date(iso);
+  } catch (e) {
+    return smoothAdjustedNow.value;
   }
 });
 
@@ -140,27 +157,54 @@ const chineseParts = computed(() => {
   const m = date.getMinutes();
   const s = date.getSeconds();
 
-  const mText = numberToChinese(m);
-  const sText = numberToChinese(s);
+  const createChar = (char: string, type: 'period' | 'number' | 'unit') => ({ char, type });
+  const strToChars = (str: string, type: 'period' | 'number' | 'unit') => str.split('').map(c => createChar(c, type));
 
-  const timeString = (hourStr: string) => {
-    let str = `${hourStr}點${mText}分`;
-    if (showSeconds.value) {
-      str += `${sText}秒`;
+  const parts: { char: string; type: 'period' | 'number' | 'unit' }[] = [];
+
+  // Period (12h only)
+  if (use12HourFormat.value) {
+    const period = getChinesePeriod(h);
+    parts.push(...strToChars(period, 'period'));
+  }
+
+  // Hour
+  let displayH = h;
+  if (use12HourFormat.value) {
+      displayH = h % 12;
+      if (displayH === 0) displayH = 12;
+  }
+  
+  // Natural Chinese Number for Hour (0-23 or 1-12)
+  const getNaturalChinese = (num: number) => {
+    const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+    if (num <= 10) {
+      if (num === 10) return '十';
+      return digits[num];
     }
-    return str;
+    if (num < 20) {
+      return '十' + digits[num % 10];
+    }
+    // 20-23
+    const unit = num % 10;
+    if (unit === 0) return '二十';
+    return '二十' + digits[unit];
   };
 
-  if (use12HourFormat.value) {
-      const period = getChinesePeriod(h);
-      let h12 = h % 12;
-      if (h12 === 0) h12 = 12;
-      const h12Text = numberToChinese(h12);
-      return `${period}${timeString(h12Text)}`;
-  } else {
-      const hText = numberToChinese(h);
-      return timeString(hText);
+  parts.push(...strToChars(getNaturalChinese(displayH), 'number'));
+  parts.push(createChar('時', 'unit'));
+
+  // Minute
+  parts.push(...strToChars(numberToChinese(m), 'number'));
+  parts.push(createChar('分', 'unit'));
+
+  // Second
+  if (showSeconds.value) {
+      parts.push(...strToChars(numberToChinese(s), 'number'));
+      parts.push(createChar('秒', 'unit'));
   }
+
+  return parts;
 });
 
 const timezones = computed(() => {
@@ -194,16 +238,25 @@ const timezones = computed(() => {
 });
 
 const hourRotation = computed(() => {
-    const date = zonedNow.value;
-    return (date.getHours() % 12) * 30 + date.getMinutes() * 0.5 + date.getSeconds() / 120;
+    // Use smoothZonedNow for continuous movement
+    const date = smoothZonedNow.value;
+    return (date.getHours() % 12) * 30 
+      + date.getMinutes() * 0.5 
+      + date.getSeconds() * (0.5 / 60)
+      + date.getMilliseconds() * (0.5 / 60 / 1000);
 });
 const minuteRotation = computed(() => {
-    const date = zonedNow.value;
-    return date.getMinutes() * 6 + date.getSeconds() * 0.1;
+    // Use smoothZonedNow for continuous movement
+    const date = smoothZonedNow.value;
+    return date.getMinutes() * 6 
+      + date.getSeconds() * 0.1
+      + date.getMilliseconds() * (0.1 / 1000);
 });
 const secondRotation = computed(() => {
-    const date = zonedNow.value;
-    return date.getSeconds() * 6;
+    // Use smoothZonedNow for continuous movement
+    const date = smoothZonedNow.value;
+    return date.getSeconds() * 6 
+      + date.getMilliseconds() * (6 / 1000);
 });
 
 const flipDigits = computed(() => {
@@ -303,7 +356,19 @@ const flipDigits = computed(() => {
     </div>
 
     <div v-else class="chinese">
-      <div class="chinese-row main">{{ chineseParts }}</div>
+      <div class="chinese-row main">
+        <div 
+          v-for="(item, index) in chineseParts" 
+          :key="index" 
+          class="char-block"
+          :class="[
+            `type-${item.type}`,
+            index % 2 === 0 ? 'even' : 'odd'
+          ]"
+        >
+          {{ item.char }}
+        </div>
+      </div>
     </div>
 
     <div class="tabs">
@@ -391,6 +456,15 @@ const flipDigits = computed(() => {
 
 .tz {
   width: 220px;
+}
+
+/* Font Updates */
+.date,
+.digital-time,
+.number,
+.flip :deep(.digit),
+.chinese-row.main {
+  font-family: monospace !important;
 }
 
 .date {
@@ -508,7 +582,7 @@ const flipDigits = computed(() => {
 .number {
   color: #cfd2d9;
   font-weight: 700;
-  font-size: clamp(14px, 2vw, 18px);
+  font-size: clamp(42px, 6vw, 54px);
   display: block;
 }
 
@@ -591,6 +665,52 @@ const flipDigits = computed(() => {
   font-size: clamp(24px, 5vw, 64px);
   font-weight: 700;
   color: #f5f6fa;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.char-block {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.2em;
+  min-width: 0.8em;
+  height: 1.4em;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+/* Odd/Even Coloring & Blocks */
+.char-block.odd {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f5f6fa;
+}
+
+.char-block.even {
+  background: rgba(255, 255, 255, 0.03);
+  color: #d3d6dc;
+}
+
+/* Semantic Styling */
+.char-block.type-period {
+  color: #fbbf24; /* Amber */
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.char-block.type-unit {
+  font-size: 0.6em;
+  align-self: center;
+  background: transparent;
+  color: #9ba1ad;
+  margin-top: 0.5em; /* visual alignment */
+}
+
+/* Hover effect */
+.char-block:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .clock-page.fullscreen .chinese-row.main {
