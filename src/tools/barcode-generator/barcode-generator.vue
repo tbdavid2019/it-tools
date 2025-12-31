@@ -71,6 +71,8 @@ const renderBarcode = () => {
       text: text.value,
       scale: scale.value,
       height: height.value,
+      width: width.value, // Bar width scale
+      rotate: rotate.value, // Rotation
       paddingwidth: paddingX.value,
       paddingheight: paddingY.value,
       backgroundcolor: backgroundColor.value.slice(1), // Remove #
