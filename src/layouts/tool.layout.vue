@@ -6,8 +6,10 @@ import type { HeadObject } from '@vueuse/head';
 import BaseLayout from './base.layout.vue';
 import FavoriteButton from '@/components/FavoriteButton.vue';
 import type { Tool } from '@/tools/tools.types';
+import { useToolStore } from '@/tools/tools.store';
 
 const route = useRoute();
+const toolStore = useToolStore();
 
 const head = computed<HeadObject>(() => ({
   title: `${route.meta.name} - tool.david888`,
@@ -28,6 +30,9 @@ const { t } = useI18n();
 const i18nKey = computed<string>(() => route.path.trim().replace('/', ''));
 const toolTitle = computed<string>(() => t(`tools.${i18nKey.value}.title`, String(route.meta.name)));
 const toolDescription = computed<string>(() => t(`tools.${i18nKey.value}.description`, String(route.meta.description)));
+
+const currentTool = computed(() => toolStore.tools.find(tool => tool.path === route.path));
+const category = computed(() => currentTool.value?.category);
 </script>
 
 <template>
@@ -54,6 +59,20 @@ const toolDescription = computed<string>(() => t(`tools.${i18nKey.value}.descrip
 
     <div class="tool-content">
       <slot />
+    </div>
+
+    <div v-if="category" class="tool-breadcrumb">
+      <router-link to="/" class="breadcrumb-link">
+        <n-text depth="3">
+          {{ category }}
+        </n-text>
+      </router-link>
+      <n-text depth="3" class="breadcrumb-separator">
+        >
+      </n-text>
+      <n-text depth="1">
+        {{ toolTitle }}
+      </n-text>
     </div>
   </BaseLayout>
 </template>
@@ -103,6 +122,28 @@ const toolDescription = computed<string>(() => t(`tools.${i18nKey.value}.descrip
 
       opacity: 0.7;
     }
+  }
+}
+
+.tool-breadcrumb {
+  margin-top: 64px;
+  padding: 32px 0;
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid rgba(128, 128, 128, 0.1);
+
+  .breadcrumb-link {
+    text-decoration: none;
+    transition: opacity 0.2s;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+
+  .breadcrumb-separator {
+    margin: 0 12px;
+    opacity: 0.4;
   }
 }
 </style>
