@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     About: typeof import('./src/pages/About.vue')['default']
     App: typeof import('./src/App.vue')['default']
     AsciiTextDrawer: typeof import('./src/tools/ascii-text-drawer/ascii-text-drawer.vue')['default']
+    BarcodeGenerator: typeof import('./src/tools/barcode-generator/barcode-generator.vue')['default']
     'Base.layout': typeof import('./src/layouts/base.layout.vue')['default']
     Base64FileConverter: typeof import('./src/tools/base64-file-converter/base64-file-converter.vue')['default']
     Base64StringConverter: typeof import('./src/tools/base64-string-converter/base64-string-converter.vue')['default']

@@ -79,8 +79,16 @@ const onLogoChange = (event: Event) => {
 
 <template>
   <c-card>
-    <n-grid x-gap="12" y-gap="12" cols="1 600:3">
-      <n-gi span="2">
+    <n-grid x-gap="12" y-gap="12" cols="1">
+      <n-gi>
+        <div flex flex-col items-center gap-3 mt-2>
+          <div ref="qrContainer" p-4 flex items-center justify-center rd-8px bg-white shadow-sm />
+          <c-button @click="download">
+            Download qr-code
+          </c-button>
+        </div>
+      </n-gi>
+      <n-gi>
         <c-input-text
           v-model:value="text"
           label-position="left"
@@ -144,14 +152,6 @@ const onLogoChange = (event: Event) => {
             :options="errorCorrectionLevels.map((value) => ({ label: value, value }))"
           />
         </n-form>
-      </n-gi>
-      <n-gi>
-        <div flex flex-col items-center gap-3 mt-2>
-          <div ref="qrContainer" w-220px h-220px flex items-center justify-center rd-8px bg-white shadow-sm />
-          <c-button @click="download">
-            Download qr-code
-          </c-button>
-        </div>
       </n-gi>
     </n-grid>
   </c-card>

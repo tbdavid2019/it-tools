@@ -695,6 +695,9 @@ const flipDigits = computed(() => {
 
 /* Semantic Styling */
 .char-block.type-period {
+  font-size: 0.6em;
+  align-self: center;
+  margin-top: 0.5em;
   color: #fbbf24; /* Amber */
   background: rgba(251, 191, 36, 0.1);
 }
