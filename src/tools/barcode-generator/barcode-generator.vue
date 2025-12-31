@@ -25,22 +25,13 @@ const textAlignOptions = [
   { label: 'Off', value: 'off' },
 ];
 
-const rotations = [
-  { label: '0°', value: 'N' },
-  { label: '90°', value: 'R' },
-  { label: '180°', value: 'I' },
-  { label: '270°', value: 'L' },
-];
-
 const text = ref('https://tool.david888.com');
 const barcodeType = ref('pdf417');
 const pdf417Columns = ref(0); // 0 = auto
 const scale = ref(4);
 const height = ref(15);
-const width = ref(2); // Bar width scale
 const paddingX = ref(10);
 const paddingY = ref(10);
-const rotate = ref('N');
 const backgroundColor = ref('#ffffff');
 const barColor = ref('#000000');
 const includeText = ref(true);
@@ -71,8 +62,6 @@ const renderBarcode = () => {
       text: text.value,
       scale: scale.value,
       height: height.value,
-      width: width.value, // Bar width scale
-      rotate: rotate.value, // Rotation
       paddingwidth: paddingX.value,
       paddingheight: paddingY.value,
       backgroundcolor: backgroundColor.value.slice(1), // Remove #
@@ -106,10 +95,8 @@ watch([
   pdf417Columns,
   scale,
   height,
-  width,
   paddingX,
   paddingY,
-  rotate,
   backgroundColor,
   barColor,
   includeText,
@@ -193,14 +180,6 @@ const downloadJPEG = () => {
           <n-input-number v-model:value="height" :min="1" :max="100" />
         </n-form-item>
         
-         <n-form-item label="Bar Width Scale:">
-          <n-input-number v-model:value="width" :min="1" :max="5" />
-        </n-form-item>
-
-        <n-form-item label="Rotation:">
-          <n-select v-model:value="rotate" :options="rotations" />
-        </n-form-item>
-
         <n-form-item label="Padding X:">
           <n-input-number v-model:value="paddingX" :min="0" />
         </n-form-item>
