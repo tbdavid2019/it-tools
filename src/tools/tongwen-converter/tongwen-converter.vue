@@ -11,7 +11,19 @@ const directionOptions = computed(() => [
   { label: translate('tools.tongwen-converter.directions.t2s'), value: 't2s' as const },
 ]);
 
-const result = computed(() => (text.value ? convertTongWen(text.value, direction.value) : ''));
+const result = ref('');
+
+watch(
+  [text, direction],
+  async ([newText, newDirection]) => {
+    if (!newText) {
+      result.value = '';
+      return;
+    }
+    result.value = await convertTongWen(newText, newDirection);
+  },
+  { immediate: true },
+);
 const { copy: copyResult } = useCopy({ source: result });
 
 const swapDirection = () => {
