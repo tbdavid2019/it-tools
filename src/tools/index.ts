@@ -104,6 +104,10 @@ import { tool as barcodeScanner } from './barcode-scanner';
 import { tool as imageConverter } from './image-converter';
 import { tool as videoConverter } from './video-converter';
 import { tool as audioEditor } from './audio-editor';
+import { tool as micCameraTester } from './mic-camera-tester';
+import { tool as colorCorrection } from './color-correction';
+import { tool as svgTools } from './svg-tools';
+import { tool as csvExcelViewer } from './csv-excel-viewer';
 
 
 
@@ -160,7 +164,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Images and videos',
-    components: [removeBackground, imageCompression, videoConverter, audioEditor, barcodeScanner, imageConverter, qrCodeGenerator, qrChecker, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, barcodeGenerator],
+    components: [micCameraTester, colorCorrection, svgTools, removeBackground, imageCompression, videoConverter, audioEditor, barcodeScanner, imageConverter, qrCodeGenerator, qrChecker, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, barcodeGenerator],
 
   },
   {
@@ -210,7 +214,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Data',
-    components: [phoneParserAndFormatter, ibanValidatorAndParser],
+    components: [csvExcelViewer, phoneParserAndFormatter, ibanValidatorAndParser],
   },
   {
     name: 'PDF',

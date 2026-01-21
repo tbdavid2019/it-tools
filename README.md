@@ -29,6 +29,10 @@
 | 17 | 新增「圖片轉檔」工具（Images and videos 分類），支援 HEIC 格式及常見圖片格式轉換（https://tool.david888.com/image-converter ） |
 | 18 | 新增「影片轉檔與剪輯」工具（Images and videos 分類），支援影片剪輯與格式轉換（https://tool.david888.com/video-converter ） |
 | 19 | 新增「音訊編輯器」工具（Images and videos 分類），支援音訊剪輯、特效與濾鏡（https://tool.david888.com/audio-editor ） |
+| 20 | 新增「SVG 工具箱」（Images and videos 分類），支援 SVG 程式碼即時預覽與編輯（https://tool.david888.com/svg-tools ） |
+| 21 | 新增「圖片色彩校正」工具（Images and videos 分類），支援亮度、對比、飽和度調整（https://tool.david888.com/color-correction ） |
+| 22 | 新增「麥克風與攝影機測試」（Images and videos 分類），提供裝置選擇與音量視覺化（https://tool.david888.com/mic-camera-tester ） |
+| 23 | 新增「CSV & Excel 檢視器」（Data 分類），支援預覽並匯出為 CSV 檔案（https://tool.david888.com/csv-excel-viewer ） |
 
 
 

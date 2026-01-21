@@ -26,6 +26,10 @@ const tools = computed<ToolCategory[]>(() => [
   ...(favoriteTools.value.length > 0 ? [{ name: t('tools.categories.favorite-tools'), components: favoriteTools.value }] : []),
   ...toolsByCategory.value,
 ]);
+
+const allToolsCount = computed(() => {
+  return toolsByCategory.value.reduce((acc, category) => acc + category.components.length, 0);
+});
 </script>
 
 <template>
@@ -54,6 +58,10 @@ const tools = computed<ToolCategory[]>(() => [
         </div>
 
         <CollapsibleToolMenu :tools-by-category="tools" />
+        
+        <div class="tool-count">
+          Currently {{ allToolsCount }} apps available
+        </div>
       </div>
     </template>
 
@@ -167,5 +175,13 @@ const tools = computed<ToolCategory[]>(() => [
       font-size: 16px;
     }
   }
+}
+
+.tool-count {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(156, 163, 175);
+  padding-bottom: 20px;
 }
 </style>

@@ -546,6 +546,22 @@ tools:
     title: Audio Editor
     description: Edit audio files (trim, filters, effects) with visual waveform, completely client-side.
 
+  mic-camera-tester:
+    title: Mic & Camera Tester
+    description: Test and preview your camera and microphone devices with visual feedback.
+
+  color-correction:
+    title: Color Correction
+    description: Adjust image brightness, contrast, saturation, and apply filters like grayscale or sepia.
+
+  svg-tools:
+    title: SVG Tools
+    description: View, edit, and optimize SVG code with live preview.
+
+  csv-excel-viewer:
+    title: CSV & Excel Viewer
+    description: Open and view CSV, XLSX, XLS spreadsheets directly in the browser.
+
 
 
 

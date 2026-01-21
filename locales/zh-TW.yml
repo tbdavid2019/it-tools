@@ -542,6 +542,22 @@ tools:
     title: 音訊編輯器
     description: 編輯音訊檔案（剪輯、濾鏡、特效），支援視覺化波形，完全在客戶端執行。
 
+  mic-camera-tester:
+    title: 麥克風與攝影機測試
+    description: 測試與預覽您的攝影機與麥克風裝置，提供視覺化音量回饋。
+
+  color-correction:
+    title: 圖片色彩校正
+    description: 調整圖片亮度、對比、飽和度，或套用灰階、懷舊等濾鏡效果。
+
+  svg-tools:
+    title: SVG 工具箱
+    description: 檢視、編輯 SVG 原始碼並即時預覽，支援優化與下載。
+
+  csv-excel-viewer:
+    title: CSV & Excel 檢視器
+    description: 在瀏覽器中直接開啟並檢視 CSV、XLSX、XLS 電子表格檔案。
+
 
 
 
