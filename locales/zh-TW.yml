@@ -513,3 +513,38 @@ tools:
   text-to-binary:
     title: 文字到 ASCII 二進位
     description: 將文字轉換為其 ASCII 二進位表示形式，反之亦然。
+
+  remove-background:
+    title: AI 圖片去背
+    description: 使用 AI 自動移除圖片背景。
+
+  image-compression:
+    title: 圖片壓縮
+    description: 壓縮圖片（PNG, JPG, WEBP）並支援畫質調整與前後對比。
+
+  pdf-tools:
+    title: PDF 工具箱
+    description: PDF 實用工具合集：合併、分割、旋轉與壓縮。
+
+  barcode-scanner:
+    title: 條碼掃描器
+    description: 使用相機或圖片上傳掃描一維和二維條碼（EAN, UPC, Code128 等）
+
+  image-converter:
+    title: 圖片轉檔
+    description: 轉換圖片格式（PNG, JPG, WebP），支援 HEIC 格式。
+
+  video-converter:
+    title: 影片轉檔與剪輯
+    description: 使用瀏覽器功能剪輯和轉換影片檔案（MP4, WebM）。
+
+  audio-editor:
+    title: 音訊編輯器
+    description: 編輯音訊檔案（剪輯、濾鏡、特效），支援視覺化波形，完全在客戶端執行。
+
+
+
+
+
+
+

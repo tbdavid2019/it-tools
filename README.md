@@ -22,6 +22,14 @@
 | 10 | 新增「貓年齡計算器」：換算貓咪對應人類年齡（https://tool.david888.com/cat-age-calculator ） |
 | 11 | 線上時鐘升級：修復翻頁/模擬時鐘排版、新增「網路校時」功能（HTTP Time Sync）、全螢幕模式自動隱藏控制項（https://tool.david888.com/online-clock ） |
 | 12 | 介面調整：將 Measurement（測量工具）分類移至選單最上方，方便使用 |
+| 13 | 新增「AI 圖片去背」工具（Images and videos 分類），使用 AI 自動移除圖片背景（https://tool.david888.com/remove-background ） |
+| 14 | 新增「圖片壓縮」工具（Images and videos 分類），支援 PNG/JPG/WebP 壓縮與前後對比（https://tool.david888.com/image-compression ） |
+| 15 | 新增「PDF 工具箱」（PDF 分類），包含合併、分割、旋轉、壓縮 PDF 功能（https://tool.david888.com/pdf-tools ） |
+| 16 | 新增「條碼掃描器」（Images and videos 分類），支援相機掃描與圖片上傳解析 1D/2D 條碼（https://tool.david888.com/barcode-scanner ） |
+| 17 | 新增「圖片轉檔」工具（Images and videos 分類），支援 HEIC 格式及常見圖片格式轉換（https://tool.david888.com/image-converter ） |
+| 18 | 新增「影片轉檔與剪輯」工具（Images and videos 分類），支援影片剪輯與格式轉換（https://tool.david888.com/video-converter ） |
+| 19 | 新增「音訊編輯器」工具（Images and videos 分類），支援音訊剪輯、特效與濾鏡（https://tool.david888.com/audio-editor ） |
+
 
 
 ![alt text](image.png)

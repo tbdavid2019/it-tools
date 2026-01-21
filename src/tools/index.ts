@@ -97,6 +97,15 @@ import { tool as birthdayCalculator } from './birthday-calculator';
 import { tool as dogAgeCalculator } from './dog-age-calculator';
 import { tool as catAgeCalculator } from './cat-age-calculator';
 import { tool as onlineClock } from './online-clock';
+import { tool as removeBackground } from './remove-background';
+import { tool as imageCompression } from './image-compression';
+import { tool as pdfTools } from './pdf-tools';
+import { tool as barcodeScanner } from './barcode-scanner';
+import { tool as imageConverter } from './image-converter';
+import { tool as videoConverter } from './video-converter';
+import { tool as audioEditor } from './audio-editor';
+
+
 
 export const toolsByCategory: ToolCategory[] = [
   {
@@ -151,7 +160,8 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'Images and videos',
-    components: [qrCodeGenerator, qrChecker, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, barcodeGenerator],
+    components: [removeBackground, imageCompression, videoConverter, audioEditor, barcodeScanner, imageConverter, qrCodeGenerator, qrChecker, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder, barcodeGenerator],
+
   },
   {
     name: 'Development',
@@ -201,6 +211,10 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Data',
     components: [phoneParserAndFormatter, ibanValidatorAndParser],
+  },
+  {
+    name: 'PDF',
+    components: [pdfTools],
   },
 ];
 

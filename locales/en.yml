@@ -517,3 +517,38 @@ tools:
   text-to-binary:
     title: Text to ASCII binary
     description: Convert text to its ASCII binary representation and vice-versa.
+
+  remove-background:
+    title: AI Background Remover
+    description: Remove image background automatically with AI.
+
+  image-compression:
+    title: Image Compressor
+    description: Compress images (PNG, JPG, WEBP) with visual comparison and quality control.
+
+  pdf-tools:
+    title: PDF Tools
+    description: Collection of tools to manipulate PDF files (merge, split, rotate, and compress).
+
+  barcode-scanner:
+    title: Barcode Scanner
+    description: Scan 1D and 2D barcodes (EAN, UPC, Code128, etc.) using your camera or image upload
+
+  image-converter:
+    title: Image Converter
+    description: Convert images (PNG, JPG, WebP) and support HEIC format.
+
+  video-converter:
+    title: Video Converter
+    description: Trim and convert video files (MP4, WebM) using browser capabilities.
+
+  audio-editor:
+    title: Audio Editor
+    description: Edit audio files (trim, filters, effects) with visual waveform, completely client-side.
+
+
+
+
+
+
+
