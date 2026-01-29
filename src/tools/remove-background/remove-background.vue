@@ -8,9 +8,15 @@ import { Download, Trash, Eye, EyeOff, Upload } from '@vicons/tabler';
 // Config for imgly
 const config: Config = {
   device: 'gpu',
+  model: 'isnet',
+  output: {
+    format: 'image/png',
+    quality: 1,
+    type: 'foreground',
+  },
   progress: (key: string, current: number, total: number) => {
     // Optional: could handle detailed progress here
-  }
+  },
 };
 
 type ImageItem = {
@@ -33,7 +39,7 @@ const generateId = () => Math.random().toString(36).substring(2, 9);
 
 const processItem = async (item: ImageItem) => {
   if (item.status === 'processing' || item.status === 'done') return;
-  
+
   item.status = 'processing';
   item.progress = 0;
 
@@ -46,11 +52,11 @@ const processItem = async (item: ImageItem) => {
     // Note: This might fetch WASM files from CDN by default if not locally hosted.
     // Ideally we should configure publicPath, but default CDN fits 'client-side' requirement for now.
     const resultBlob = await removeBackground(blob, {
-        ...config,
-        progress: (key: string, current: number, total: number) => {
-             // Heuristic progress since library gives bytes
-             if(total > 0) item.progress = Math.round((current / total) * 100);
-        }
+      ...config,
+      progress: (key: string, current: number, total: number) => {
+        // Heuristic progress since library gives bytes
+        if (total > 0) item.progress = Math.round((current / total) * 100);
+      },
     });
 
     item.processedBlob = resultBlob;
@@ -72,19 +78,19 @@ const onFilesDrop = async (files: File[] | null) => {
 
     const reader = new FileReader();
     reader.onload = (e) => {
-        const id = generateId();
-        const newItem: ImageItem = {
-            id,
-            name: file.name,
-            original: e.target?.result as string,
-            processed: null,
-            processedBlob: null,
-            status: 'idle',
-            progress: 0
-        };
-        items.value.push(newItem);
-        // Auto process
-        processItem(newItem);
+      const id = generateId();
+      const newItem: ImageItem = {
+        id,
+        name: file.name,
+        original: e.target?.result as string,
+        processed: null,
+        processedBlob: null,
+        status: 'idle',
+        progress: 0,
+      };
+      items.value.push(newItem);
+      // Auto process
+      processItem(newItem);
     };
     reader.readAsDataURL(file);
   }
@@ -95,11 +101,11 @@ const { isOverDropZone } = useDropZone(dropZoneRef, {
 });
 
 const handleFileSelect = (e: Event) => {
-    const input = e.target as HTMLInputElement;
-    if (input.files) {
-        onFilesDrop(Array.from(input.files));
-    }
-    input.value = ''; // Reset
+  const input = e.target as HTMLInputElement;
+  if (input.files) {
+    onFilesDrop(Array.from(input.files));
+  }
+  input.value = ''; // Reset
 };
 
 const downloadItem = (item: ImageItem) => {
@@ -115,88 +121,93 @@ const downloadItem = (item: ImageItem) => {
 };
 
 const removeItem = (id: string) => {
-   const idx = items.value.findIndex(i => i.id === id);
-   if (idx !== -1) {
-       const item = items.value[idx];
-       if (item.processed) URL.revokeObjectURL(item.processed);
-       items.value.splice(idx, 1);
-   }
+  const idx = items.value.findIndex((i) => i.id === id);
+  if (idx !== -1) {
+    const item = items.value[idx];
+    if (item.processed) URL.revokeObjectURL(item.processed);
+    items.value.splice(idx, 1);
+  }
 };
 
 const clearAll = () => {
-    items.value.forEach(item => {
-        if (item.processed) URL.revokeObjectURL(item.processed);
-    });
-    items.value = [];
+  items.value.forEach((item) => {
+    if (item.processed) URL.revokeObjectURL(item.processed);
+  });
+  items.value = [];
 };
 
 onUnmounted(() => {
-    clearAll();
+  clearAll();
 });
-
 </script>
 
 <template>
   <div class="remove-bg-tool">
-    <div ref="dropZoneRef" 
-         class="drop-zone"
-         :class="{ 'is-drag-over': isOverDropZone }"
-         @click="(($refs.fileInput as HTMLInputElement)?.click())">
-         <div class="upload-content">
-            <n-icon size="48" :component="Upload" />
-            <p>Click or Drop images here</p>
-            <p class="sub-text">Supports PNG, JPG, WEBP</p>
-         </div>
-         <input ref="fileInput" type="file" multiple accept="image/*" class="hidden-input" @change="handleFileSelect" />
+    <div
+      ref="dropZoneRef"
+      class="drop-zone"
+      :class="{ 'is-drag-over': isOverDropZone }"
+      @click="($refs.fileInput as HTMLInputElement)?.click()"
+    >
+      <div class="upload-content">
+        <n-icon size="48" :component="Upload" />
+        <p>Click or Drop images here</p>
+        <p class="sub-text">Supports PNG, JPG, WEBP</p>
+      </div>
+      <input ref="fileInput" type="file" multiple accept="image/*" class="hidden-input" @change="handleFileSelect" />
     </div>
 
     <div v-if="items.length > 0" class="controls">
-       <n-button @click="showOriginal = !showOriginal">
-          <template #icon>
-            <n-icon :component="showOriginal ? EyeOff : Eye" />
-          </template>
-          {{ showOriginal ? 'Show Result' : 'Show Original' }}
-       </n-button>
-       <n-button @click="clearAll" type="error" ghost>
-          <template #icon>
-            <n-icon :component="Trash" />
-          </template>
-          Clear All
-       </n-button>
+      <n-button @click="showOriginal = !showOriginal">
+        <template #icon>
+          <n-icon :component="showOriginal ? EyeOff : Eye" />
+        </template>
+        {{ showOriginal ? 'Show Result' : 'Show Original' }}
+      </n-button>
+      <n-button @click="clearAll" type="error" ghost>
+        <template #icon>
+          <n-icon :component="Trash" />
+        </template>
+        Clear All
+      </n-button>
     </div>
 
     <div v-if="items.length > 0" class="image-grid">
-       <n-card v-for="item in items" :key="item.id" size="small" class="image-card">
-          <div class="image-wrapper">
-             <img :src="showOriginal ? item.original : (item.processed || item.original)" 
-                  class="preview-image" 
-                  :class="{ 'opacity-50': item.status === 'processing', 'bg-checker': !showOriginal }" />
-             
-             <div v-if="item.status === 'processing'" class="loading-overlay">
-                 <n-spin size="medium" />
-                 <span>{{ item.progress }}%</span>
-             </div>
-             
-             <div v-if="item.status === 'error'" class="error-overlay">
-                 Failed
-             </div>
+      <n-card v-for="item in items" :key="item.id" size="small" class="image-card">
+        <div class="image-wrapper">
+          <img
+            :src="showOriginal ? item.original : item.processed || item.original"
+            class="preview-image"
+            :class="{ 'opacity-50': item.status === 'processing', 'bg-checker': !showOriginal }"
+          />
+
+          <div v-if="item.status === 'processing'" class="loading-overlay">
+            <n-spin size="medium" />
+            <span>{{ item.progress }}%</span>
           </div>
-          
-          <div class="card-footer">
-             <div class="file-name" :title="item.name">{{ item.name }}</div>
-             <div class="actions">
-                <n-button size="tiny" secondary type="primary" 
-                          :disabled="item.status !== 'done'"
-                          @click="downloadItem(item)">
-                    <template #icon><n-icon :component="Download" /></template>
-                    Download
-                </n-button>
-                <n-button size="tiny" quaternary circle type="error" @click="removeItem(item.id)">
-                    <template #icon><n-icon :component="Trash" /></template>
-                </n-button>
-             </div>
+
+          <div v-if="item.status === 'error'" class="error-overlay">Failed</div>
+        </div>
+
+        <div class="card-footer">
+          <div class="file-name" :title="item.name">{{ item.name }}</div>
+          <div class="actions">
+            <n-button
+              size="tiny"
+              secondary
+              type="primary"
+              :disabled="item.status !== 'done'"
+              @click="downloadItem(item)"
+            >
+              <template #icon><n-icon :component="Download" /></template>
+              Download
+            </n-button>
+            <n-button size="tiny" quaternary circle type="error" @click="removeItem(item.id)">
+              <template #icon><n-icon :component="Trash" /></template>
+            </n-button>
           </div>
-       </n-card>
+        </div>
+      </n-card>
     </div>
   </div>
 </template>
@@ -213,7 +224,8 @@ onUnmounted(() => {
   margin-bottom: 20px;
 }
 
-.drop-zone:hover, .drop-zone.is-drag-over {
+.drop-zone:hover,
+.drop-zone.is-drag-over {
   border-color: var(--n-primary-color);
   background-color: rgba(var(--n-primary-color-rgb), 0.1);
 }
@@ -261,12 +273,15 @@ onUnmounted(() => {
 
 /* Checkerboard pattern for transparent background */
 .bg-checker {
-  background-image: linear-gradient(45deg, #ccc 25%, transparent 25%), 
-                    linear-gradient(-45deg, #ccc 25%, transparent 25%), 
-                    linear-gradient(45deg, transparent 75%, #ccc 75%), 
-                    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-image: linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
   background-size: 20px 20px;
-  background-position: 0 0, 0 10px, 10px -10px, -10px 0px; 
+  background-position:
+    0 0,
+    0 10px,
+    10px -10px,
+    -10px 0px;
 }
 
 .preview-image {
@@ -275,10 +290,11 @@ onUnmounted(() => {
   object-fit: contain;
 }
 
-.loading-overlay, .error-overlay {
+.loading-overlay,
+.error-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   display: flex;
   flex-direction: column;
   align-items: center;

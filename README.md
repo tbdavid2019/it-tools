@@ -1,5 +1,3 @@
-
-
 <p align="center">
 一套為開發者與 IT 工作者準備的線上工具集合。<a href="https://tool.david888.com">立即體驗！</a>
 </p>
@@ -8,36 +6,38 @@
 
 **本版本更新**
 
-| # | 更新內容 |
-| --- | --- |
-| 1 | 預設介面語言改為繁體中文 |
-| 2 | 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉（https://tool.david888.com/tongwen-converter ） |
-| 3 | QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式（https://tool.david888.com/qrcode-generator ） |
-| 4 | QR 解析工具：新增支援貼上剪貼簿圖片直接解析（https://tool.david888.com/qr-checker ） |
-| 5 | 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間（https://tool.david888.com/countdown-timer ） |
-| 6 | 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製（https://tool.david888.com/fancy-text ） |
-| 7 | 新增「世界時間」工具（Measurement 分類），快速查看多城市時間並切換 12/24 小時制（https://tool.david888.com/world-clock ） |
-| 8 | 新增「生日/年齡計算器」：農曆、生肖、星座、實歲/虛歲、下次生日倒數一次看（https://tool.david888.com/birthday-calculator ） |
-| 9 | 新增「狗年齡計算器」：依體型換算狗狗對應人類年齡（https://tool.david888.com/dog-age-calculator ） |
-| 10 | 新增「貓年齡計算器」：換算貓咪對應人類年齡（https://tool.david888.com/cat-age-calculator ） |
-| 11 | 線上時鐘升級：修復翻頁/模擬時鐘排版、新增「網路校時」功能（HTTP Time Sync）、全螢幕模式自動隱藏控制項（https://tool.david888.com/online-clock ） |
-| 12 | 介面調整：將 Measurement（測量工具）分類移至選單最上方，方便使用 |
-| 13 | 新增「AI 圖片去背」工具（Images and videos 分類），使用 AI 自動移除圖片背景（https://tool.david888.com/remove-background ） |
-| 14 | 新增「圖片壓縮」工具（Images and videos 分類），支援 PNG/JPG/WebP 壓縮與前後對比（https://tool.david888.com/image-compression ） |
-| 15 | 新增「PDF 工具箱」（PDF 分類），包含合併、分割、旋轉、壓縮 PDF 功能（https://tool.david888.com/pdf-tools ） |
-| 16 | 新增「條碼掃描器」（Images and videos 分類），支援相機掃描與圖片上傳解析 1D/2D 條碼（https://tool.david888.com/barcode-scanner ） |
-| 17 | 新增「圖片轉檔」工具（Images and videos 分類），支援 HEIC 格式及常見圖片格式轉換（https://tool.david888.com/image-converter ） |
-| 18 | 新增「影片轉檔與剪輯」工具（Images and videos 分類），支援影片剪輯與格式轉換（https://tool.david888.com/video-converter ） |
-| 19 | 新增「音訊編輯器」工具（Images and videos 分類），支援音訊剪輯、特效與濾鏡（https://tool.david888.com/audio-editor ） |
-| 20 | 新增「SVG 工具箱」（Images and videos 分類），支援 SVG 程式碼即時預覽與編輯（https://tool.david888.com/svg-tools ） |
-| 21 | 新增「圖片色彩校正」工具（Images and videos 分類），支援亮度、對比、飽和度調整（https://tool.david888.com/color-correction ） |
-| 22 | 新增「麥克風與攝影機測試」（Images and videos 分類），提供裝置選擇與音量視覺化（https://tool.david888.com/mic-camera-tester ） |
-| 23 | 新增「CSV & Excel 檢視器」（Data 分類），支援預覽並匯出為 CSV 檔案（https://tool.david888.com/csv-excel-viewer ） |
-
-
+| #   | 更新內容                                                                                                                                                                                      |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | 預設介面語言改為繁體中文                                                                                                                                                                      |
+| 2   | 新增「同文堂繁簡轉換器」工具，可離線完成簡體/繁體互轉（https://tool.david888.com/tongwen-converter ）                                                                                         |
+| 3   | QR Code 生成器升級：支援 qr-code-styling，多種樣式（Square/Dots/Rounded/Classy 等）、角落樣式、尺寸、Logo 上傳與邊距，並保留一鍵重置為基礎樣式（https://tool.david888.com/qrcode-generator ） |
+| 4   | QR 解析工具：新增支援貼上剪貼簿圖片直接解析（https://tool.david888.com/qr-checker ）                                                                                                          |
+| 5   | 新增「倒數計時器」工具（Measurement 分類），可設定時/分/秒並快速加時間、複製剩餘時間（https://tool.david888.com/countdown-timer ）                                                            |
+| 6   | 新增「特殊字體產生器」工具（Text 分類），一鍵輸出多種 Unicode 特殊字型並可快速複製（https://tool.david888.com/fancy-text ）                                                                   |
+| 7   | 新增「世界時間」工具（Measurement 分類），快速查看多城市時間並切換 12/24 小時制（https://tool.david888.com/world-clock ）                                                                     |
+| 8   | 新增「生日/年齡計算器」：農曆、生肖、星座、實歲/虛歲、下次生日倒數一次看（https://tool.david888.com/birthday-calculator ）                                                                    |
+| 9   | 新增「狗年齡計算器」：依體型換算狗狗對應人類年齡（https://tool.david888.com/dog-age-calculator ）                                                                                             |
+| 10  | 新增「貓年齡計算器」：換算貓咪對應人類年齡（https://tool.david888.com/cat-age-calculator ）                                                                                                   |
+| 11  | 線上時鐘升級：修復翻頁/模擬時鐘排版、新增「網路校時」功能（HTTP Time Sync）、全螢幕模式自動隱藏控制項（https://tool.david888.com/online-clock ）                                              |
+| 12  | 介面調整：將 Measurement（測量工具）分類移至選單最上方，方便使用                                                                                                                              |
+| 13  | 新增「AI 圖片去背」工具（Images and videos 分類），使用 AI 自動移除圖片背景（https://tool.david888.com/remove-background ）                                                                   |
+| 14  | 新增「圖片壓縮」工具（Images and videos 分類），支援 PNG/JPG/WebP 壓縮與前後對比（https://tool.david888.com/image-compression ）                                                              |
+| 15  | 新增「PDF 工具箱」（PDF 分類），包含合併、分割、旋轉、壓縮 PDF 功能（https://tool.david888.com/pdf-tools ）                                                                                   |
+| 16  | 新增「條碼掃描器」（Images and videos 分類），支援相機掃描與圖片上傳解析 1D/2D 條碼（https://tool.david888.com/barcode-scanner ）                                                             |
+| 17  | 新增「圖片轉檔」工具（Images and videos 分類），支援 HEIC 格式及常見圖片格式轉換（https://tool.david888.com/image-converter ）                                                                |
+| 18  | 新增「影片轉檔與剪輯」工具（Images and videos 分類），支援影片剪輯與格式轉換（https://tool.david888.com/video-converter ）                                                                    |
+| 19  | 新增「音訊編輯器」工具（Images and videos 分類），支援音訊剪輯、特效與濾鏡（https://tool.david888.com/audio-editor ）                                                                         |
+| 20  | 新增「SVG 工具箱」（Images and videos 分類），支援 SVG 程式碼即時預覽與編輯（https://tool.david888.com/svg-tools ）                                                                           |
+| 21  | 新增「圖片色彩校正」工具（Images and videos 分類），支援亮度、對比、飽和度調整（https://tool.david888.com/color-correction ）                                                                 |
+| 22  | 新增「麥克風與攝影機測試」（Images and videos 分類），提供裝置選擇與音量視覺化（https://tool.david888.com/mic-camera-tester ）                                                                |
+| 23  | 新增「CSV & Excel 檢視器」（Data 分類），支援預覽並匯出為 CSV 檔案（https://tool.david888.com/csv-excel-viewer ）                                                                             |
+| 24  | 修復「影片轉檔與剪輯」下載後無聲問題，輸出影片保留音訊（https://tool.david888.com/video-converter ）                                                                                          |
+| 25  | CSV & Excel 檢視器支援編碼偵測與手動切換，並改善 XLSX 欄位對齊（https://tool.david888.com/csv-excel-viewer ）                                                                                 |
+| 26  | 音訊編輯器支援拖曳選取與剪輯，並可套用淡入/淡出/回聲/混響效果與匯出 WAV（https://tool.david888.com/audio-editor ）                                                                            |
+| 27  | PDF 工具箱修復旋轉功能（https://tool.david888.com/pdf-tools ）                                                                                                                                |
+| 28  | AI 圖片去背提升輸出品質與細節保留（https://tool.david888.com/remove-background ）                                                                                                             |
 
 ![alt text](image.png)
-
 
 ## Functionalities and roadmap
 
@@ -53,8 +53,8 @@ You have an idea of a tool? Submit a [feature request](https://github.com/tbdavi
 4. 需要環境變數的話，於 Vercel 專案設定補上後重新部署。
 5. 首次部署完成後即可透過 Vercel 提供的網址存取。
 
-
 ## 本地測試
+
 啟動開發伺服器：pnpm dev，預設會跑在 http://localhost:5173
 
 如需預覽正式建置：pnpm build 後 pnpm preview（預設 http://localhost:5050）
@@ -63,11 +63,14 @@ You have an idea of a tool? Submit a [feature request](https://github.com/tbdavi
 pnpm install
 pnpm dev
 ```
+
 ```
 pnpm build
 pnpm preview
 ```
+
 ## Docker 打包
+
 ```
 docker build -t tool333 .
 docker run -d -p 80:80 tool333
@@ -77,6 +80,7 @@ docker push tbdavid2019/tool333:latest
 ```
 
 ## Docker 運行
+
 ```
 docker run -d -p 80:80  tbdavid2019/tool333
 ```

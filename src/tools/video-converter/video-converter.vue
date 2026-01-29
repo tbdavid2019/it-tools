@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useDropZone, useFileDialog } from '@vueuse/core';
 import { useMessage } from 'naive-ui';
-import { ref, shallowRef, computed, onBeforeUnmount } from 'vue';
+import { ref, shallowRef, onBeforeUnmount } from 'vue';
 import { Rotate, Trash, PlayerPlay, PlayerPause, Volume, Volume3, Download, Movie } from '@vicons/tabler';
 
 const message = useMessage();
 const mainElement = ref<HTMLElement | null>(null);
 const videoRef = ref<HTMLVideoElement | null>(null);
-const canvasRef = ref<HTMLCanvasElement | null>(null);
 
 const { open, onChange } = useFileDialog({
   accept: 'video/*',
@@ -32,6 +31,7 @@ const currentTime = ref(0);
 const volume = ref(1);
 const isMuted = ref(false);
 const processedVideo = ref<string | null>(null);
+const processedMimeType = ref<string | null>(null);
 const isProcessing = ref(false);
 
 const formatOptions = [
@@ -49,7 +49,7 @@ const processFile = (file: File) => {
   const url = URL.createObjectURL(file);
   const tempVideo = document.createElement('video');
   tempVideo.src = url;
-  
+
   tempVideo.onloadedmetadata = () => {
     video.value = {
       url,
@@ -63,6 +63,7 @@ const processFile = (file: File) => {
     };
     trimRange.value = { start: 0, end: tempVideo.duration };
     processedVideo.value = null;
+    processedMimeType.value = null;
   };
 };
 
@@ -130,91 +131,121 @@ const handleReset = () => {
   video.value = null;
   trimRange.value = { start: 0, end: 0 };
   processedVideo.value = null;
+  processedMimeType.value = null;
   currentTime.value = 0;
   isPlaying.value = false;
 };
 
 const handleProcess = async (mode: 'trim' | 'convert') => {
-  if (!video.value || !canvasRef.value) return;
-  
+  if (!video.value) return;
+
   isProcessing.value = true;
+  let audioContext: AudioContext | null = null;
   try {
     const videoEl = document.createElement('video');
     videoEl.src = video.value.url;
     videoEl.crossOrigin = 'anonymous';
-    // Mute to avoid noise during processing if displayed (though it's not)
-    videoEl.muted = true;
-    
-    await new Promise((resolve) => {
+    videoEl.preload = 'auto';
+    videoEl.playsInline = true;
+    videoEl.style.position = 'fixed';
+    videoEl.style.left = '-9999px';
+    videoEl.style.top = '0';
+    document.body.appendChild(videoEl);
+
+    await new Promise((resolve, reject) => {
       videoEl.onloadedmetadata = resolve;
+      videoEl.onerror = reject;
     });
 
-    const canvas = canvasRef.value;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) throw new Error('Canvas context error');
+    const startTime = mode === 'trim' ? trimRange.value.start : 0;
+    const endTime = mode === 'trim' ? trimRange.value.end : video.value.duration;
+    const duration = Math.max(0, endTime - startTime);
+    if (duration <= 0) {
+      message.error('Invalid trim range');
+      isProcessing.value = false;
+      return;
+    }
 
-    canvas.width = video.value.width;
-    canvas.height = video.value.height;
+    const videoStream = (videoEl as any).captureStream?.() || (videoEl as any).mozCaptureStream?.();
+    if (!videoStream) {
+      throw new Error('Video capture is not supported in this browser.');
+    }
 
-    const stream = canvas.captureStream(30); // 30 FPS
-    
-    // Check support
+    audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    const audioSource = audioContext.createMediaElementSource(videoEl);
+    const audioDestination = audioContext.createMediaStreamDestination();
+    const silentGain = audioContext.createGain();
+    silentGain.gain.value = 0;
+    audioSource.connect(audioDestination);
+    audioSource.connect(silentGain);
+    silentGain.connect(audioContext.destination);
+    if (audioContext.state === 'suspended') {
+      await audioContext.resume();
+    }
+
+    const combinedStream = new MediaStream([
+      ...videoStream.getVideoTracks(),
+      ...audioDestination.stream.getAudioTracks(),
+    ]);
+
     let mimeType = targetFormat.value;
     if (!MediaRecorder.isTypeSupported(mimeType)) {
-      // Fallback
-      mimeType = 'video/webm'; 
+      mimeType = 'video/webm';
       if (!MediaRecorder.isTypeSupported(mimeType)) {
         throw new Error('Browser does not support this video encoding.');
       }
       message.warning('Requested format not supported, falling back to WebM.');
     }
 
-    const mediaRecorder = new MediaRecorder(stream, { mimeType });
+    const mediaRecorder = new MediaRecorder(combinedStream, { mimeType });
     const chunks: Blob[] = [];
+
+    const finalizeRecording = () => {
+      const blob = new Blob(chunks, { type: mimeType });
+      if (processedVideo.value) URL.revokeObjectURL(processedVideo.value);
+      processedVideo.value = URL.createObjectURL(blob);
+      processedMimeType.value = mimeType;
+      isProcessing.value = false;
+      message.success('Video processed successfully!');
+      audioContext?.close();
+      document.body.removeChild(videoEl);
+    };
 
     mediaRecorder.ondataavailable = (e) => {
       if (e.data.size > 0) chunks.push(e.data);
     };
+    mediaRecorder.onstop = finalizeRecording;
 
-    mediaRecorder.onstop = () => {
-      const blob = new Blob(chunks, { type: mimeType });
-      const url = URL.createObjectURL(blob);
-      processedVideo.value = url;
-      isProcessing.value = false;
-      message.success('Video processed successfully!');
-    };
+    await new Promise((resolve) => {
+      if (startTime === 0) {
+        resolve(null);
+        return;
+      }
+      videoEl.onseeked = resolve;
+      videoEl.currentTime = startTime;
+    });
 
     mediaRecorder.start();
+    await videoEl.play();
 
-    // Determine range
-    const startTime = mode === 'trim' ? trimRange.value.start : 0;
-    const endTime = mode === 'trim' ? trimRange.value.end : video.value.duration;
-    const duration = endTime - startTime;
-    
-    // Processing loop
-    const fps = 30;
-    const frameDuration = 1 / fps;
-    const totalFrames = Math.floor(duration * fps);
+    const stopWhenDone = () => {
+      if (videoEl.currentTime >= endTime || videoEl.ended) {
+        videoEl.pause();
+        mediaRecorder.stop();
+        return;
+      }
+      requestAnimationFrame(stopWhenDone);
+    };
 
-    for (let i = 0; i < totalFrames; i++) {
-      // Allow UI updates
-      if (i % 10 === 0) await new Promise(r => setTimeout(r, 0));
-      
-      videoEl.currentTime = startTime + (i * frameDuration);
-      await new Promise(resolve => {
-        videoEl.onseeked = () => {
-           ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
-           resolve(null);
-        };
-      });
-    }
-
-    mediaRecorder.stop();
-
+    stopWhenDone();
   } catch (e: any) {
     console.error(e);
     message.error('Error processing video: ' + e.message);
     isProcessing.value = false;
+    await audioContext?.close();
+    if (videoEl.parentNode) {
+      videoEl.parentNode.removeChild(videoEl);
+    }
   }
 };
 
@@ -222,7 +253,7 @@ const downloadVideo = () => {
   if (!processedVideo.value || !video.value) return;
   const link = document.createElement('a');
   link.href = processedVideo.value;
-  const ext = targetFormat.value.split('/')[1] || 'mp4';
+  const ext = (processedMimeType.value ?? targetFormat.value).split('/')[1] || 'mp4';
   link.download = `${video.value.name.split('.')[0]}_processed.${ext}`;
   link.click();
 };
@@ -236,140 +267,163 @@ onBeforeUnmount(() => {
 <template>
   <c-card>
     <div ref="mainElement">
-      <div v-if="!video" class="p-10 border-2 border-dashed rounded-lg text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" :class="{ 'border-primary bg-primary/5': isOverDropZone }" @click="open()">
+      <div
+        v-if="!video"
+        class="p-10 border-2 border-dashed rounded-lg text-center cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+        :class="{ 'border-primary bg-primary/5': isOverDropZone }"
+        @click="open()"
+      >
         <n-icon size="48" class="text-gray-400 mb-2">
           <Movie />
         </n-icon>
-        <p class="text-lg text-gray-500">
-          Click or drop video here
-        </p>
+        <p class="text-lg text-gray-500">Click or drop video here</p>
         <p class="text-xs text-gray-400 mt-1">Supports MP4, WebM (Max 100MB)</p>
       </div>
 
       <div v-else class="space-y-6">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-           <!-- Player -->
-           <n-card title="Video Player" size="small">
-             <template #header-extra>
-               <c-button size="tiny" secondary @click="handleReset">
-                 <template #icon><n-icon><Rotate /></n-icon></template>
-                 Reset
-               </c-button>
-             </template>
-             
-             <video 
-               ref="videoRef"
-               :src="video.url"
-               class="w-full rounded-lg bg-black aspect-video object-contain"
-               @timeupdate="handleTimeUpdate"
-               @play="isPlaying = true"
-               @pause="isPlaying = false"
-               @ended="isPlaying = false"
-             ></video>
+          <!-- Player -->
+          <n-card title="Video Player" size="small">
+            <template #header-extra>
+              <c-button size="tiny" secondary @click="handleReset">
+                <template #icon
+                  ><n-icon><Rotate /></n-icon
+                ></template>
+                Reset
+              </c-button>
+            </template>
 
-             <div class="mt-3 flex flex-col gap-2">
-               <div class="flex justify-between text-xs text-gray-500">
-                 <span>{{ formatTime(currentTime) }}</span>
-                 <span>{{ formatTime(video.duration) }}</span>
-               </div>
-               <n-slider v-model:value="currentTime" :max="video.duration" :step="0.1" @update:value="handleSeek" :tooltip="false" />
-               <div class="flex items-center gap-4 mt-2">
-                 <c-button circle size="tiny" @click="handlePlayPause">
-                   <template #icon>
-                     <n-icon size="16">
-                       <PlayerPause v-if="isPlaying" />
-                       <PlayerPlay v-else />
-                     </n-icon>
-                   </template>
-                 </c-button>
-                 
-                 <div class="flex items-center gap-2 w-32">
-                   <c-button circle size="tiny" text @click="toggleMute">
-                     <template #icon>
-                        <n-icon>
-                          <Volume3 v-if="isMuted || volume === 0" />
-                          <Volume v-else />
-                        </n-icon>
-                     </template>
-                   </c-button>
-                   <n-slider v-model:value="volume" :max="1" :step="0.1" @update:value="handleVolumeChange" :tooltip="false" />
-                 </div>
-               </div>
-             </div>
-           </n-card>
+            <video
+              ref="videoRef"
+              :src="video.url"
+              class="w-full rounded-lg bg-black aspect-video object-contain"
+              @timeupdate="handleTimeUpdate"
+              @play="isPlaying = true"
+              @pause="isPlaying = false"
+              @ended="isPlaying = false"
+            ></video>
 
-           <!-- Info -->
-           <n-card title="Video Info" size="small">
-              <div class="space-y-2 text-sm">
-                <div class="flex justify-between border-b pb-2">
-                  <span class="text-gray-500">Name</span>
-                  <span>{{ video.name }}</span>
-                </div>
-                <div class="flex justify-between border-b pb-2">
-                  <span class="text-gray-500">Size</span>
-                  <span>{{ (video.size / 1024 / 1024).toFixed(2) }} MB</span>
-                </div>
-                <div class="flex justify-between border-b pb-2">
-                  <span class="text-gray-500">Resolution</span>
-                  <span>{{ video.width }} x {{ video.height }}</span>
-                </div>
-                <div class="flex justify-between">
-                  <span class="text-gray-500">Type</span>
-                  <span>{{ video.type }}</span>
+            <div class="mt-3 flex flex-col gap-2">
+              <div class="flex justify-between text-xs text-gray-500">
+                <span>{{ formatTime(currentTime) }}</span>
+                <span>{{ formatTime(video.duration) }}</span>
+              </div>
+              <n-slider
+                v-model:value="currentTime"
+                :max="video.duration"
+                :step="0.1"
+                @update:value="handleSeek"
+                :tooltip="false"
+              />
+              <div class="flex items-center gap-4 mt-2">
+                <c-button circle size="tiny" @click="handlePlayPause">
+                  <template #icon>
+                    <n-icon size="16">
+                      <PlayerPause v-if="isPlaying" />
+                      <PlayerPlay v-else />
+                    </n-icon>
+                  </template>
+                </c-button>
+
+                <div class="flex items-center gap-2 w-32">
+                  <c-button circle size="tiny" text @click="toggleMute">
+                    <template #icon>
+                      <n-icon>
+                        <Volume3 v-if="isMuted || volume === 0" />
+                        <Volume v-else />
+                      </n-icon>
+                    </template>
+                  </c-button>
+                  <n-slider
+                    v-model:value="volume"
+                    :max="1"
+                    :step="0.1"
+                    @update:value="handleVolumeChange"
+                    :tooltip="false"
+                  />
                 </div>
               </div>
-           </n-card>
+            </div>
+          </n-card>
+
+          <!-- Info -->
+          <n-card title="Video Info" size="small">
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between border-b pb-2">
+                <span class="text-gray-500">Name</span>
+                <span>{{ video.name }}</span>
+              </div>
+              <div class="flex justify-between border-b pb-2">
+                <span class="text-gray-500">Size</span>
+                <span>{{ (video.size / 1024 / 1024).toFixed(2) }} MB</span>
+              </div>
+              <div class="flex justify-between border-b pb-2">
+                <span class="text-gray-500">Resolution</span>
+                <span>{{ video.width }} x {{ video.height }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-500">Type</span>
+                <span>{{ video.type }}</span>
+              </div>
+            </div>
+          </n-card>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-           <!-- Tools -->
-           <div class="space-y-6">
-             <n-card title="Trim Video" size="small">
-               <div class="space-y-4">
-                 <div>
-                    <label class="text-xs text-gray-500">Range: {{ formatTime(trimRange.start) }} - {{ formatTime(trimRange.end) }}</label>
-                    <n-slider v-model:value="trimRange.start" :max="video.duration" :step="0.1" class="mt-2" />
-                    <n-slider v-model:value="trimRange.end" :max="video.duration" :step="0.1" class="mt-2" />
-                 </div>
-                 <div class="text-xs text-gray-500">
-                   Duration: {{ formatTime(trimRange.end - trimRange.start) }}
-                 </div>
-                 <c-button class="w-full" @click="handleProcess('trim')" :disabled="isProcessing || trimRange.start >= trimRange.end">
-                   {{ isProcessing ? 'Processing...' : 'Trim Video' }}
-                 </c-button>
-               </div>
-             </n-card>
-             
-             <n-card title="Convert Format" size="small">
-                <div class="space-y-4">
-                  <n-form-item label="Target Format" :show-label="false">
-                    <c-select v-model:value="targetFormat" :options="formatOptions" />
-                  </n-form-item>
-                  <c-button class="w-full" @click="handleProcess('convert')" :disabled="isProcessing">
-                    {{ isProcessing ? 'Processing...' : 'Convert Video' }}
-                  </c-button>
+          <!-- Tools -->
+          <div class="space-y-6">
+            <n-card title="Trim Video" size="small">
+              <div class="space-y-4">
+                <div>
+                  <label class="text-xs text-gray-500"
+                    >Range: {{ formatTime(trimRange.start) }} - {{ formatTime(trimRange.end) }}</label
+                  >
+                  <n-slider v-model:value="trimRange.start" :max="video.duration" :step="0.1" class="mt-2" />
+                  <n-slider v-model:value="trimRange.end" :max="video.duration" :step="0.1" class="mt-2" />
                 </div>
-             </n-card>
-           </div>
-           
-           <!-- Preview -->
-           <n-card title="Processed Result" size="small">
-              <div class="h-48 border-2 border-dashed rounded-lg flex items-center justify-center bg-gray-50 dark:bg-gray-800">
-                <video v-if="processedVideo" :src="processedVideo" controls class="h-full w-full object-contain"></video>
-                <div v-else class="text-center text-gray-400">
-                  <n-icon size="32" class="mb-2"><Movie /></n-icon>
-                  <div>Processed video will appear here</div>
-                </div>
+                <div class="text-xs text-gray-500">Duration: {{ formatTime(trimRange.end - trimRange.start) }}</div>
+                <c-button
+                  class="w-full"
+                  @click="handleProcess('trim')"
+                  :disabled="isProcessing || trimRange.start >= trimRange.end"
+                >
+                  {{ isProcessing ? 'Processing...' : 'Trim Video' }}
+                </c-button>
               </div>
-              <c-button v-if="processedVideo" class="w-full mt-4" primary @click="downloadVideo">
-                <template #icon><n-icon><Download /></n-icon></template>
-                Download
-              </c-button>
-           </n-card>
+            </n-card>
+
+            <n-card title="Convert Format" size="small">
+              <div class="space-y-4">
+                <n-form-item label="Target Format" :show-label="false">
+                  <c-select v-model:value="targetFormat" :options="formatOptions" />
+                </n-form-item>
+                <c-button class="w-full" @click="handleProcess('convert')" :disabled="isProcessing">
+                  {{ isProcessing ? 'Processing...' : 'Convert Video' }}
+                </c-button>
+              </div>
+            </n-card>
+          </div>
+
+          <!-- Preview -->
+          <n-card title="Processed Result" size="small">
+            <div
+              class="h-48 border-2 border-dashed rounded-lg flex items-center justify-center bg-gray-50 dark:bg-gray-800"
+            >
+              <video v-if="processedVideo" :src="processedVideo" controls class="h-full w-full object-contain"></video>
+              <div v-else class="text-center text-gray-400">
+                <n-icon size="32" class="mb-2"><Movie /></n-icon>
+                <div>Processed video will appear here</div>
+              </div>
+            </div>
+            <c-button v-if="processedVideo" class="w-full mt-4" primary @click="downloadVideo">
+              <template #icon
+                ><n-icon><Download /></n-icon
+              ></template>
+              Download
+            </c-button>
+          </n-card>
         </div>
       </div>
-      
-      <canvas ref="canvasRef" class="hidden"></canvas>
     </div>
   </c-card>
 </template>
