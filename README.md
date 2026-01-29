@@ -31,11 +31,16 @@
 | 21  | 新增「圖片色彩校正」工具（Images and videos 分類），支援亮度、對比、飽和度調整（https://tool.david888.com/color-correction ）                                                                 |
 | 22  | 新增「麥克風與攝影機測試」（Images and videos 分類），提供裝置選擇與音量視覺化（https://tool.david888.com/mic-camera-tester ）                                                                |
 | 23  | 新增「CSV & Excel 檢視器」（Data 分類），支援預覽並匯出為 CSV 檔案（https://tool.david888.com/csv-excel-viewer ）                                                                             |
-| 24  | 修復「影片轉檔與剪輯」下載後無聲問題，輸出影片保留音訊（https://tool.david888.com/video-converter ）                                                                                          |
-| 25  | CSV & Excel 檢視器支援編碼偵測與手動切換，並改善 XLSX 欄位對齊（https://tool.david888.com/csv-excel-viewer ）                                                                                 |
-| 26  | 音訊編輯器支援拖曳選取與剪輯，並可套用淡入/淡出/回聲/混響效果與匯出 WAV（https://tool.david888.com/audio-editor ）                                                                            |
-| 27  | PDF 工具箱修復旋轉功能（https://tool.david888.com/pdf-tools ）                                                                                                                                |
-| 28  | AI 圖片去背提升輸出品質與細節保留（https://tool.david888.com/remove-background ）                                                                                                             |
+
+## Changelog
+
+### 2026-01-29
+
+- 影片轉檔與剪輯：修復下載後無聲問題，輸出影片保留音訊（https://tool.david888.com/video-converter ）
+- CSV & Excel 檢視器：支援編碼偵測與手動切換，並改善 XLSX 欄位對齊（https://tool.david888.com/csv-excel-viewer ）
+- 音訊編輯器：支援拖曳選取與剪輯，淡入/淡出/回聲/混響可輸出 WAV（https://tool.david888.com/audio-editor ）
+- PDF 工具箱：修復旋轉功能（https://tool.david888.com/pdf-tools ）
+- AI 圖片去背：提升輸出品質與細節保留（https://tool.david888.com/remove-background ）
 
 ![alt text](image.png)
 
