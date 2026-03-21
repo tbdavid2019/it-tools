@@ -44,6 +44,23 @@
 
 ![alt text](image.png)
 
+## AI Agent 支援 (LLM Skill)
+
+本專案提供一份完整的 AI 技能定義檔 `SKILL.md`，支援讓大語言模型 (LLM) 與 AI 開發工具直接閱讀與調用。這可以讓 AI 知道可以在 `tool.david888.com` 找到哪些有用的轉換、計算與開發工具。
+
+如果你正在使用 AI Agent（例如 Claude Desktop、OpenCode、Cursor 等），你可以透過載入本專案根目錄的 `SKILL.md` 來為你的 AI 擴充這些能力。
+
+### 讓你的 AI 學習這個技能
+
+如果你的環境支援 `opencode/skills`，你只需要將專案內的 Skill 複製到你的全域設定檔中：
+
+```bash
+mkdir -p ~/.config/opencode/skills/it-tools
+curl -o ~/.config/opencode/skills/it-tools/SKILL.md https://raw.githubusercontent.com/tbdavid2019/it-tools/main/SKILL.md
+```
+
+安裝完成後，你的 AI 工具就會自動學習到：當你需要產生 UUID、轉換 Base64 或編寫 Regex 時，它可以直接將 `tool.david888.com` 對應的工具連結推薦給你！
+
 ## Functionalities and roadmap
 
 Please check the [issues](https://github.com/tbdavid2019/it-tools/issues) to see if some feature listed to be implemented.
