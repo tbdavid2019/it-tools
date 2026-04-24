@@ -19,6 +19,13 @@ const styleStore = useStyleStore();
 
 const { t } = useI18n();
 
+const layoutBackgroundColor = computed(() => {
+  if (!styleStore.isBingWallpaperEnabled) return 'transparent';
+  const opacity = styleStore.cardOpacity * 0.7; // Slightly more transparent
+  const baseColor = styleStore.isDarkTheme ? '35, 35, 35' : '255, 255, 255';
+  return `rgba(${baseColor}, ${opacity})`;
+});
+
 const toolStore = useToolStore();
 const { favoriteTools, toolsByCategory } = storeToRefs(toolStore);
 
@@ -66,7 +73,7 @@ const allToolsCount = computed(() => {
     </template>
 
     <template #content>
-      <div flex items-center justify-center gap-2>
+      <div flex items-center justify-center gap-2 class="navbar-wrapper">
         <c-button
           circle
           variant="text"
@@ -136,6 +143,17 @@ const allToolsCount = computed(() => {
 .sider-content {
   padding-top: 160px;
   padding-bottom: 200px;
+}
+
+.navbar-wrapper {
+  padding: 8px 16px;
+  border-radius: 24px;
+  background-color: v-bind('layoutBackgroundColor');
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  margin: 10px auto 20px;
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .hero-wrapper {

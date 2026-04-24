@@ -1,6 +1,19 @@
 # Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+ 
+## Version 2026.04.24
+
+### Features
+- **home**: added random Bing wallpaper background with glassmorphism effects
+- **ui**: updated cards to Bento-style with 24px rounded corners and subtle shadows
+- **ui**: implemented backdrop-filter blur on tool cards for better aesthetics
+- **services**: added Bing wallpaper history crawler and random selection service
+- **ui**: added user controls in the sidebar for Bing wallpaper (on/off) and card transparency slider
+- **settings**: implemented persistent storage for user layout preferences
+- **ui**: implemented global Bing wallpaper background across all 107+ tools
+- **ui**: added frosted glassmorphism effect to the sidebar and top navigation for better readability
+- **fix**: resolved layout rendering crash by correctly injecting store dependencies
 
 ## Version 2024.10.22-7ca5933
 

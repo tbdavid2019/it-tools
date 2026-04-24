@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useTheme } from './c-card.theme';
+import { useStyleStore } from '@/stores/style.store';
 
 const props = defineProps<{
   title?: string
@@ -8,6 +9,14 @@ const props = defineProps<{
 const { title } = toRefs(props);
 
 const theme = useTheme();
+const styleStore = useStyleStore();
+
+const backgroundColor = computed(() => {
+  const opacity = styleStore.cardOpacity;
+  const color = theme.value.backgroundColor;
+  // Replace the alpha value in rgba() string
+  return color.replace(/[\d.]+\)$/, `${opacity})`);
+});
 </script>
 
 <template>
@@ -21,10 +30,13 @@ const theme = useTheme();
 
 <style lang="less" scoped>
 .c-card {
-  background-color: v-bind('theme.backgroundColor');
+  background-color: v-bind('backgroundColor');
   border: 1px solid v-bind('theme.borderColor');
-  border-radius: 4px;
-  padding: 20px 24px;
+  border-radius: 24px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
 
   &-title {
     font-size: 16px;

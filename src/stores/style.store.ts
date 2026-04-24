@@ -8,6 +8,8 @@ export const useStyleStore = defineStore('style', {
     const toggleDark = useToggle(isDarkTheme);
     const isSmallScreen = useMediaQuery('(max-width: 700px)');
     const isMenuCollapsed = useStorage('isMenuCollapsed', isSmallScreen.value) as Ref<boolean>;
+    const isBingWallpaperEnabled = useStorage('isBingWallpaperEnabled', true);
+    const cardOpacity = useStorage('cardOpacity', 0.8);
 
     watch(isSmallScreen, v => (isMenuCollapsed.value = v));
 
@@ -16,6 +18,8 @@ export const useStyleStore = defineStore('style', {
       toggleDark,
       isMenuCollapsed,
       isSmallScreen,
+      isBingWallpaperEnabled,
+      cardOpacity,
     };
   },
 });

@@ -1,8 +1,16 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
 
+import { useStyleStore } from '@/stores/style.store';
+
 const props = defineProps<{ icon: Component; title: string }>();
 const { icon, title } = toRefs(props);
+const styleStore = useStyleStore();
+
+const gradientBackground = computed(() => {
+  const opacity = styleStore.cardOpacity;
+  return `linear-gradient(48deg, rgba(37, 99, 108, ${opacity}) 0%, rgba(59, 149, 111, ${opacity}) 60%, rgba(20, 160, 88, ${opacity}) 100%)`;
+});
 </script>
 
 <template>
@@ -22,8 +30,7 @@ const { icon, title } = toRefs(props);
 
 <style lang="less" scoped>
 .colored-card {
-  background: rgb(37, 99, 108);
-  background: linear-gradient(48deg, rgba(37, 99, 108, 1) 0%, rgba(59, 149, 111, 1) 60%, rgba(20, 160, 88, 1) 100%);
+  background: v-bind('gradientBackground');
   color: #fff;
   border: none;
 

@@ -4,6 +4,7 @@ import { NGlobalStyle, NMessageProvider, NNotificationProvider, darkTheme } from
 import { darkThemeOverrides, lightThemeOverrides } from './themes';
 import { layouts } from './layouts';
 import { useStyleStore } from './stores/style.store';
+import BingBackground from './components/BingBackground.vue';
 
 const route = useRoute();
 const layout = computed(() => route?.meta?.layout ?? layouts.base);
@@ -14,6 +15,12 @@ const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrid
 
 const { locale } = useI18n();
 
+const layoutBackgroundColor = computed(() => {
+  const opacity = styleStore.cardOpacity * 0.7; // Slightly more transparent
+  const baseColor = styleStore.isDarkTheme ? '35, 35, 35' : '255, 255, 255';
+  return `rgba(${baseColor}, ${opacity})`;
+});
+
 syncRef(
   locale,
   useStorage('locale', locale),
@@ -22,14 +29,17 @@ syncRef(
 
 <template>
   <n-config-provider :theme="theme" :theme-overrides="themeOverrides">
-    <NGlobalStyle />
-    <NMessageProvider placement="bottom">
-      <NNotificationProvider placement="bottom-right">
-        <component :is="layout">
-          <RouterView />
-        </component>
-      </NNotificationProvider>
-    </NMessageProvider>
+    <div :class="{ 'with-wallpaper': styleStore.isBingWallpaperEnabled }" style="min-height: 100vh;">
+      <NGlobalStyle />
+      <BingBackground />
+      <NMessageProvider placement="bottom">
+        <NNotificationProvider placement="bottom-right">
+          <component :is="layout">
+            <RouterView />
+          </component>
+        </NNotificationProvider>
+      </NMessageProvider>
+    </div>
   </n-config-provider>
 </template>
 
@@ -38,15 +48,30 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
+  background-color: transparent !important;
 }
 
 html {
   height: 100%;
   margin: 0;
   padding: 0;
+  background-color: transparent !important;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Global overrides for Naive UI layouts when wallpaper is enabled */
+.with-wallpaper .n-layout, 
+.with-wallpaper .n-layout-scroll-container {
+  background-color: transparent !important;
+}
+
+.with-wallpaper .n-layout-sider {
+  background-color: v-bind('layoutBackgroundColor') !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-right: 1px solid rgba(128, 128, 128, 0.2);
 }
 </style>

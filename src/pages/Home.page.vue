@@ -6,9 +6,11 @@ import Draggable from 'vuedraggable';
 import ColoredCard from '../components/ColoredCard.vue';
 import ToolCard from '../components/ToolCard.vue';
 import { useToolStore } from '@/tools/tools.store';
+import { useStyleStore } from '@/stores/style.store';
 import { config } from '@/config';
 
 const toolStore = useToolStore();
+const styleStore = useStyleStore();
 
 useHead({ title: 'tool.david888 - Handy online tools for developers' });
 const { t } = useI18n();
@@ -22,7 +24,8 @@ function onUpdateFavoriteTools() {
 </script>
 
 <template>
-  <div class="pt-50px">
+  <div class="home-page-container">
+    <div class="pt-50px">
     <div class="grid-wrapper">
       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
         <ColoredCard v-if="config.showBanner" :title="$t('home.follow.title')" :icon="IconHeart">
@@ -77,6 +80,7 @@ function onUpdateFavoriteTools() {
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <style scoped lang="less">
@@ -115,3 +119,4 @@ function onUpdateFavoriteTools() {
   }
 }
 </style>
+
