@@ -68,7 +68,7 @@ const styleStore = useStyleStore();
         <icon-mdi-chevron-right />
       </span>
 
-      <span ml-8px text-13px>
+      <span ml-8px text-15px font-500>
         {{ name }}
       </span>
     </div>
@@ -98,7 +98,7 @@ const styleStore = useStyleStore();
   margin-top: 10px;
 
   .section-title {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     opacity: 0.5;
     margin-bottom: 12px;
@@ -126,11 +126,11 @@ const styleStore = useStyleStore();
     }
 
     .label {
-      font-size: 13px;
+      font-size: 15px;
     }
 
     .value {
-      font-size: 12px;
+      font-size: 14px;
       opacity: 0.6;
     }
   }
@@ -142,6 +142,10 @@ const styleStore = useStyleStore();
   .menu {
     flex: 1;
     margin-bottom: 5px;
+
+    ::v-deep(.n-menu-item-content-header) {
+      font-size: 15px;
+    }
 
     ::v-deep(.n-menu-item-content::before) {
       left: 0;

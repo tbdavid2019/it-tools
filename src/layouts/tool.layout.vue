@@ -7,9 +7,18 @@ import BaseLayout from './base.layout.vue';
 import FavoriteButton from '@/components/FavoriteButton.vue';
 import type { Tool } from '@/tools/tools.types';
 import { useToolStore } from '@/tools/tools.store';
+import { useStyleStore } from '@/stores/style.store';
 
 const route = useRoute();
 const toolStore = useToolStore();
+const styleStore = useStyleStore();
+
+const layoutBackgroundColor = computed(() => {
+  if (!styleStore.isBingWallpaperEnabled) return 'transparent';
+  const opacity = styleStore.cardOpacity; // Use raw opacity for better contrast
+  const baseColor = styleStore.isDarkTheme ? '35, 35, 35' : '255, 255, 255';
+  return `rgba(${baseColor}, ${opacity})`;
+});
 
 const head = computed<HeadObject>(() => ({
   title: `${route.meta.name} - tool.david888`,
@@ -38,7 +47,7 @@ const category = computed(() => currentTool.value?.category);
 <template>
   <BaseLayout>
     <div class="tool-layout">
-      <div class="tool-header">
+      <div class="tool-header" :class="{ 'glass-effect': styleStore.isBingWallpaperEnabled }">
         <div flex flex-nowrap items-center justify-between>
           <n-h1>
             {{ toolTitle }}
@@ -57,11 +66,11 @@ const category = computed(() => currentTool.value?.category);
       </div>
     </div>
 
-    <div class="tool-content">
+    <div class="tool-content" :class="{ 'glass-effect': styleStore.isBingWallpaperEnabled }">
       <slot />
     </div>
 
-    <div v-if="category" class="tool-breadcrumb">
+    <div v-if="category" class="tool-breadcrumb" :class="{ 'glass-effect': styleStore.isBingWallpaperEnabled }">
       <router-link to="/" class="breadcrumb-link">
         <n-text depth="3">
           {{ category }}
@@ -85,6 +94,18 @@ const category = computed(() => currentTool.value?.category);
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  &.glass-effect {
+    background-color: v-bind('layoutBackgroundColor');
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
 
   ::v-deep(& > *) {
     flex: 0 1 600px;
@@ -97,8 +118,18 @@ const category = computed(() => currentTool.value?.category);
   box-sizing: border-box;
 
   .tool-header {
-    padding: 40px 0;
+    padding: 40px 30px;
     width: 100%;
+    border-radius: 24px;
+    transition: background-color 0.3s;
+
+    &.glass-effect {
+      background-color: v-bind('layoutBackgroundColor');
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
 
     .n-h1 {
       opacity: 0.9;
@@ -127,10 +158,22 @@ const category = computed(() => currentTool.value?.category);
 
 .tool-breadcrumb {
   margin-top: 64px;
-  padding: 32px 0;
+  padding: 20px 32px;
   text-align: center;
   font-size: 14px;
   border-top: 1px solid rgba(128, 128, 128, 0.1);
+  border-radius: 24px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+
+  &.glass-effect {
+    background-color: v-bind('layoutBackgroundColor');
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-top: none;
+  }
 
   .breadcrumb-link {
     text-decoration: none;

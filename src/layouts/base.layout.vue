@@ -21,7 +21,7 @@ const { t } = useI18n();
 
 const layoutBackgroundColor = computed(() => {
   if (!styleStore.isBingWallpaperEnabled) return 'transparent';
-  const opacity = styleStore.cardOpacity * 0.7; // Slightly more transparent
+  const opacity = styleStore.cardOpacity; // Use raw opacity for better contrast
   const baseColor = styleStore.isDarkTheme ? '35, 35, 35' : '255, 255, 255';
   return `rgba(${baseColor}, ${opacity})`;
 });

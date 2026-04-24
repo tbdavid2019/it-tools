@@ -1,14 +1,23 @@
 <script lang="ts" setup>
 import _ from 'lodash';
 import { demoRoutes } from './demo.routes';
+import { useStyleStore } from '@/stores/style.store';
 
 const route = useRoute();
+const styleStore = useStyleStore();
+
+const layoutBackgroundColor = computed(() => {
+  if (!styleStore.isBingWallpaperEnabled) return 'transparent';
+  const opacity = styleStore.cardOpacity;
+  const baseColor = styleStore.isDarkTheme ? '35, 35, 35' : '255, 255, 255';
+  return `rgba(${baseColor}, ${opacity})`;
+});
 
 const componentName = computed(() => _.startCase(String(route.name).replace(/^c-/, '')));
 </script>
 
 <template>
-  <div mt-2 w-full p-8>
+  <div mt-2 w-full p-8 :class="{ 'glass-effect': styleStore.isBingWallpaperEnabled }">
     <h1>c-lib components</h1>
 
     <div flex>
@@ -35,3 +44,13 @@ const componentName = computed(() => _.startCase(String(route.name).replace(/^c-
     </div>
   </div>
 </template>
+
+<style scoped lang="less">
+.glass-effect {
+  background-color: v-bind('layoutBackgroundColor');
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+</style>
